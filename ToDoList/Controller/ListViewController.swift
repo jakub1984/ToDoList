@@ -28,7 +28,9 @@ class ListViewController: UITableViewController {
         return items.count
     }
     
- 
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 90
+    }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
@@ -45,10 +47,16 @@ class ListViewController: UITableViewController {
         
     }
     
-//    @IBAction func settingsIconTapped(_ sender: UIBarButtonItem) {
-//        performSegue(withIdentifier: "toSettings", sender: self)
-//        
-//    }
+    @IBAction func settingsIconTapped(_ sender: UIBarButtonItem) {
+        let mainStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        guard let settingsViewController = mainStoryboard.instantiateViewController(withIdentifier:"settingsVC") as? SettingsViewController
+            else {
+            print("Can't find view controller")
+            return
+        }
+        navigationController?.pushViewController(settingsViewController, animated: true)
+        
+    }
     
    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

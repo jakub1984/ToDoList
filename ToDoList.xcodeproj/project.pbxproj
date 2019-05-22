@@ -15,6 +15,7 @@
 		F85685562295558A007487BA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F85685542295558A007487BA /* LaunchScreen.storyboard */; };
 		F8BA943422958611000C9FB8 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8BA943322958611000C9FB8 /* SettingsViewController.swift */; };
 		F8BA94362295862F000C9FB8 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8BA94352295862F000C9FB8 /* DetailViewController.swift */; };
+		F8BA94382295EFCD000C9FB8 /* ListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8BA94372295EFCD000C9FB8 /* ListTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		F85685572295558A007487BA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F8BA943322958611000C9FB8 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		F8BA94352295862F000C9FB8 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		F8BA94372295EFCD000C9FB8 /* ListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +87,7 @@
 			children = (
 				F856854C22955589007487BA /* Main.storyboard */,
 				F85685542295558A007487BA /* LaunchScreen.storyboard */,
+				F8BA94372295EFCD000C9FB8 /* ListTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -173,6 +176,7 @@
 				F856855122955589007487BA /* ToDoList.xcdatamodeld in Sources */,
 				F856854922955589007487BA /* AppDelegate.swift in Sources */,
 				F8BA943422958611000C9FB8 /* SettingsViewController.swift in Sources */,
+				F8BA94382295EFCD000C9FB8 /* ListTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
