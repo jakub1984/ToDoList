@@ -9,7 +9,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--To-do List-->
+        <!--YOUR APP-->
         <scene sceneID="78Z-sZ-Ren">
             <objects>
                 <tableViewController id="IQX-K1-rAk" customClass="ListViewController" customModule="ToDoList" customModuleProvider="target" sceneMemberID="viewController">
@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Item" id="etn-3G-Cao">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" id="etn-3G-Cao">
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="etn-3G-Cao" id="sAG-ek-FVL">
@@ -32,9 +32,13 @@
                             <outlet property="delegate" destination="IQX-K1-rAk" id="NU1-fi-LG6"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="To-do List" id="XgI-3C-Z4S">
+                    <navigationItem key="navigationItem" title="YOUR APP" largeTitleDisplayMode="always" id="XgI-3C-Z4S">
                         <barButtonItem key="leftBarButtonItem" title="Settings" image="nav_bar_ic_settings" id="DVg-ba-2gg"/>
-                        <barButtonItem key="rightBarButtonItem" title="Add" image="nav_bar_ic_add" id="7Qb-wK-Ahu"/>
+                        <barButtonItem key="rightBarButtonItem" title="Add" image="nav_bar_ic_add" id="7Qb-wK-Ahu">
+                            <connections>
+                                <action selector="addButtonPressed:" destination="IQX-K1-rAk" id="pMa-we-88k"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OEt-UD-3B6" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -49,6 +53,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="fC8-rU-byi">
                         <rect key="frame" x="0.0" y="44" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="0.79168790580000004" green="0.85093778369999995" blue="0.27428099509999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
