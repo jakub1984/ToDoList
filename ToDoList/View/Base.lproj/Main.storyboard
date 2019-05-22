@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -32,18 +33,59 @@
                             <outlet property="delegate" destination="IQX-K1-rAk" id="NU1-fi-LG6"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="YOUR APP" largeTitleDisplayMode="always" id="XgI-3C-Z4S">
-                        <barButtonItem key="leftBarButtonItem" title="Settings" image="nav_bar_ic_settings" id="DVg-ba-2gg"/>
+                    <navigationItem key="navigationItem" title="YOUR APP" id="XgI-3C-Z4S">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="ggF-FO-SJ7"/>
+                        <barButtonItem key="leftBarButtonItem" title="Settings" image="nav_bar_ic_settings" id="DVg-ba-2gg">
+                            <connections>
+                                <action selector="settingsIconTapped:" destination="IQX-K1-rAk" id="yTr-2C-q58"/>
+                                <segue destination="WxK-CH-64n" kind="show" identifier="toSettings" id="IIW-vZ-rz2"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Add" image="nav_bar_ic_add" id="7Qb-wK-Ahu">
                             <connections>
                                 <action selector="addButtonPressed:" destination="IQX-K1-rAk" id="pMa-we-88k"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <segue destination="t8q-Bs-umw" kind="show" identifier="toDetail" id="OgB-Hd-bOI"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OEt-UD-3B6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1098.5507246376812" y="116.51785714285714"/>
+        </scene>
+        <!--Settings-->
+        <scene sceneID="CND-wq-FEl">
+            <objects>
+                <viewController id="WxK-CH-64n" customClass="SettingsViewController" customModule="ToDoList" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="rKT-9J-HtU">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="MVu-uv-nin"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Settings" id="hnE-mm-9tr"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uRS-3c-2kN" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2110" y="560"/>
+        </scene>
+        <!--Task detail-->
+        <scene sceneID="mzP-et-03t">
+            <objects>
+                <viewController id="t8q-Bs-umw" customClass="DetailViewController" customModule="ToDoList" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="pRX-4h-pe4">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="I8I-25-tEh"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Task detail" id="oRo-Hx-x6P"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ZMS-TB-Vns" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2111" y="-143"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="jz5-Ze-MXp">

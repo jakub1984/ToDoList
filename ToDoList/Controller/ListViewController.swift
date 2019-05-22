@@ -28,6 +28,8 @@ class ListViewController: UITableViewController {
         return items.count
     }
     
+ 
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
@@ -42,6 +44,32 @@ class ListViewController: UITableViewController {
         return cell
         
     }
+    
+//    @IBAction func settingsIconTapped(_ sender: UIBarButtonItem) {
+//        performSegue(withIdentifier: "toSettings", sender: self)
+//        
+//    }
+    
+   
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "toDetail", sender: self)
+        
+    }
+    
+//    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        tableView.deselectRow(at: indexPath, animated: true)
+//        items[indexPath.row].completed = !items[indexPath.row].completed
+//        saveTask()
+//    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let destinationVC = segue.destination as! DetailViewController
+        
+        if let indexPath = tableView.indexPathForSelectedRow {
+            destinationVC.selectedTask = items[indexPath.row]
+        }
+    }
+    
     
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
         var textField = UITextField()
@@ -86,11 +114,7 @@ class ListViewController: UITableViewController {
     }
     
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        items[indexPath.row].completed = !items[indexPath.row].completed
-        saveTask()
-    }
+ 
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         
