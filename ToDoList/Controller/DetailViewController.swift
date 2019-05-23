@@ -55,7 +55,7 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         let toolbar = UIToolbar();
         toolbar.sizeToFit()
         let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelDatePicker));
-        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(donedatePicker));
+        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(doneDatePicker));
         let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
         
         toolbar.setItems([cancelButton,spaceButton,doneButton], animated: false)
@@ -66,9 +66,9 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
     }
 
     
-    @objc func donedatePicker(){
+    @objc func doneDatePicker(){
         let formatter = DateFormatter()
-        formatter.dateFormat = "dd/MM"
+        formatter.dateFormat = "dd/MM/yyyy"
         txtDatePicker.text = formatter.string(from: datePicker.date)
         self.view.endEditing(true)
     }
@@ -137,6 +137,8 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
     
     
     @IBAction func deleteTaskPressed(_ sender: UIButton) {
+        
+        
     }
     
 
