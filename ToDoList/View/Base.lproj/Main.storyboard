@@ -50,7 +50,7 @@
                                                     <attributedString key="attributedText">
                                                         <fragment content="CATEGORY NAME">
                                                             <attributes>
-                                                                <color key="NSColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                                 <font key="NSFont" metaFont="cellTitle"/>
                                                                 <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" firstLineHeadIndent="8" tighteningFactorForTruncation="0.0"/>
                                                             </attributes>
@@ -154,13 +154,6 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="srs-jH-GAM" userLabel="Content View">
                                                 <rect key="frame" x="0.0" y="0.0" width="375" height="690"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Task name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JuY-wT-NGV">
-                                                        <rect key="frame" x="79" y="53" width="82" height="21"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="W2o-pk-8qt">
                                                         <rect key="frame" x="20" y="20" width="335" height="60"/>
                                                         <subviews>
@@ -190,7 +183,7 @@
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="YBJ-5g-18R">
                                                         <rect key="frame" x="20" y="99.999999999999986" width="335" height="58.333333333333329"/>
                                                         <subviews>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Deadline (optional)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XjR-cM-Vye">
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Completion date (optional)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XjR-cM-Vye">
                                                                 <rect key="frame" x="0.0" y="0.0" width="335" height="20.333333333333332"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                 <nil key="textColor"/>
@@ -214,6 +207,33 @@
                                                             <constraint firstItem="Xlv-87-nky" firstAttribute="leading" secondItem="YBJ-5g-18R" secondAttribute="leading" id="ipr-iD-0Nd"/>
                                                         </constraints>
                                                     </stackView>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="2fR-wf-S3H">
+                                                        <rect key="frame" x="20" y="178.33333333333331" width="335" height="58.333333333333343"/>
+                                                        <subviews>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Category" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vd0-zy-Nlc">
+                                                                <rect key="frame" x="0.0" y="0.0" width="335" height="20.333333333333332"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                <nil key="textColor"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Select date" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1Lc-ge-9rd">
+                                                                <rect key="frame" x="0.0" y="28.333333333333371" width="335" height="30"/>
+                                                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <nil key="textColor"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                                <textInputTraits key="textInputTraits"/>
+                                                            </textField>
+                                                        </subviews>
+                                                        <constraints>
+                                                            <constraint firstItem="Vd0-zy-Nlc" firstAttribute="top" secondItem="2fR-wf-S3H" secondAttribute="top" id="4eM-bp-dIm"/>
+                                                            <constraint firstAttribute="trailing" secondItem="Vd0-zy-Nlc" secondAttribute="trailing" id="Ili-kB-pJ3"/>
+                                                            <constraint firstItem="Vd0-zy-Nlc" firstAttribute="leading" secondItem="2fR-wf-S3H" secondAttribute="leading" id="UT6-YJ-wva"/>
+                                                            <constraint firstItem="1Lc-ge-9rd" firstAttribute="top" secondItem="Vd0-zy-Nlc" secondAttribute="bottom" constant="8" id="gLy-Bn-ZgR"/>
+                                                            <constraint firstAttribute="trailing" secondItem="1Lc-ge-9rd" secondAttribute="trailing" id="pUB-AL-YLP"/>
+                                                            <constraint firstItem="1Lc-ge-9rd" firstAttribute="leading" secondItem="2fR-wf-S3H" secondAttribute="leading" id="sus-ku-Qf8"/>
+                                                            <constraint firstAttribute="bottom" secondItem="1Lc-ge-9rd" secondAttribute="bottom" id="ubR-ja-h4i"/>
+                                                        </constraints>
+                                                    </stackView>
                                                 </subviews>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
@@ -221,9 +241,12 @@
                                                     <constraint firstItem="W2o-pk-8qt" firstAttribute="leading" secondItem="srs-jH-GAM" secondAttribute="leading" constant="20" symbolic="YES" id="JyK-8A-Vgl"/>
                                                     <constraint firstItem="W2o-pk-8qt" firstAttribute="top" secondItem="srs-jH-GAM" secondAttribute="top" constant="20" symbolic="YES" id="KO1-Xe-RGK"/>
                                                     <constraint firstItem="YBJ-5g-18R" firstAttribute="width" secondItem="W2o-pk-8qt" secondAttribute="width" id="LNq-Sx-UEk"/>
+                                                    <constraint firstAttribute="trailing" secondItem="2fR-wf-S3H" secondAttribute="trailing" constant="20" symbolic="YES" id="TWY-If-XeR"/>
+                                                    <constraint firstItem="2fR-wf-S3H" firstAttribute="top" secondItem="YBJ-5g-18R" secondAttribute="bottom" constant="20" id="X5v-5N-eo5"/>
                                                     <constraint firstAttribute="trailing" secondItem="W2o-pk-8qt" secondAttribute="trailing" constant="20" symbolic="YES" id="gQj-Bv-laG"/>
                                                     <constraint firstAttribute="trailing" secondItem="YBJ-5g-18R" secondAttribute="trailing" constant="20" symbolic="YES" id="goT-Gz-r2C"/>
                                                     <constraint firstItem="YBJ-5g-18R" firstAttribute="top" secondItem="W2o-pk-8qt" secondAttribute="bottom" constant="20" id="ueA-Em-T6A"/>
+                                                    <constraint firstItem="2fR-wf-S3H" firstAttribute="leading" secondItem="srs-jH-GAM" secondAttribute="leading" constant="20" symbolic="YES" id="wJK-9L-J2M"/>
                                                 </constraints>
                                             </view>
                                         </subviews>
@@ -263,6 +286,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="pickerTextField" destination="1Lc-ge-9rd" id="lpT-78-k9W"/>
                         <outlet property="txtDatePicker" destination="Xlv-87-nky" id="alD-t9-jJc"/>
                     </connections>
                 </viewController>
