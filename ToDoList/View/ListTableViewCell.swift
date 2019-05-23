@@ -19,6 +19,12 @@ class ListTableViewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
     }
+    
+    func setCell(task: Tasks) {
+        titleLbl.text = task.title
+        deadlineLbl.text = "25.11."
+        categoryLbl.text = task.category
+    }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)

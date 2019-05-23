@@ -7,15 +7,20 @@
 //
 
 import UIKit
+import CoreData
 
 class DetailViewController: UIViewController {
     
     var selectedTask: Tasks?{
         didSet{
 //            loadItems()
-            print("\(String(describing: self.selectedTask?.title))")
+            print("Title \(String(describing: self.selectedTask?.title))")
+            print("Category: \(String(describing: self.selectedTask?.category))")
+
         }
     }
+    var managedContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+
     
     override func viewDidLoad() {
         super.viewDidLoad()

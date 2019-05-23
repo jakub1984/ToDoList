@@ -17,7 +17,7 @@ class ListViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //        loadItems()
+        loadTasks()
         // Do any additional setup after loading the view.
     }
     
@@ -33,18 +33,18 @@ class ListViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        let item = items[indexPath.row]
-        cell.textLabel?.text = item.title
-        cell.accessoryType = item.completed ? .checkmark : .none
-        if item.completed {
-            cell.backgroundColor = .green
-        } else {
-            cell.backgroundColor = .white
-        }        
-        return cell
-        
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as? ListTableViewCell {
+            let item = items[indexPath.row]
+            cell.setCell(task: item)
+            //        cell.accessoryType = item.completed ? .checkmark : .none
+            if item.completed {
+                cell.backgroundColor = .green
+            } else {
+                cell.backgroundColor = .white
+            }
+            return cell
+        }
+        return UITableViewCell()
     }
     
     @IBAction func settingsIconTapped(_ sender: UIBarButtonItem) {
@@ -60,21 +60,17 @@ class ListViewController: UITableViewController {
     
    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "toDetail", sender: self)
+        performSegue(withIdentifier: "toDetail", sender: tableView.cellForRow(at: indexPath))
         
     }
     
-//    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        tableView.deselectRow(at: indexPath, animated: true)
-//        items[indexPath.row].completed = !items[indexPath.row].completed
-//        saveTask()
-//    }
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let destinationVC = segue.destination as! DetailViewController
-        
+        if let destinationVC = segue.destination as? DetailViewController {
+//            if let _ = sender as? UIBarButtonItem, let destinationVC = segue.destination as? DetailViewController {
+
         if let indexPath = tableView.indexPathForSelectedRow {
             destinationVC.selectedTask = items[indexPath.row]
+        }
         }
     }
     
@@ -90,6 +86,10 @@ class ListViewController: UITableViewController {
             
             
             newItem.title = textField.text!
+            newItem.category = "Category"
+            newItem.categoryColor = "Blue"
+            newItem.completed = false
+            newItem.dueDate = nil
             
             self.items.insert(newItem, at: 0)
             
@@ -107,19 +107,7 @@ class ListViewController: UITableViewController {
         
     }
     
-    func saveTask() {
-        do{
-            try context.save()
-        }catch {
-            print("Error saving item with \(error)")
-        }
-        tableView.reloadData()
-    }
-    
-    
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return true
-    }
+  
     
     
  
@@ -139,7 +127,41 @@ class ListViewController: UITableViewController {
             }
             tableView.deleteRows(at: [indexPath], with: .automatic) 
         }
+        
+        
     }
+    
+    override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let taskCompletion = items[indexPath.row].completed ? "Restart" : "Complete"
+        let action = UIContextualAction(style: .normal, title: taskCompletion) { (action, view, completion) in
+            
+            action.backgroundColor = .green
+            self.items[indexPath.row].completed = !self.items[indexPath.row].completed
+            print("Completed: \(self.items[indexPath.row].completed)")
+
+            do{
+                try self.context.save()
+                completion(true)
+            }catch {
+                print("Error saving item with \(error)")
+            }
+            tableView.reloadData()
+            
+            
+            
+            
+        }
+        //        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+//
+//        if items[indexPath.row].completed {
+//            cell.backgroundColor = .green
+//        } else {
+//            cell.backgroundColor = .white
+//        }
+
+        return UISwipeActionsConfiguration(actions: [action])
+    }
+    
     
     func loadTasks(){
         let request: NSFetchRequest<Tasks> = Tasks.fetchRequest()
@@ -152,5 +174,18 @@ class ListViewController: UITableViewController {
         tableView.reloadData()
     }
     
+    func saveTask() {
+        do{
+            try context.save()
+        }catch {
+            print("Error saving item with \(error)")
+        }
+        tableView.reloadData()
+    }
+    
+    
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
     
 }
