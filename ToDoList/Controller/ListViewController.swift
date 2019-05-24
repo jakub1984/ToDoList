@@ -49,7 +49,7 @@ class ListViewController: UITableViewController {
     
     @IBAction func settingsIconTapped(_ sender: UIBarButtonItem) {
         let mainStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-        guard let settingsViewController = mainStoryboard.instantiateViewController(withIdentifier:"settingsVC") as? SettingsViewController
+        guard let settingsViewController = mainStoryboard.instantiateViewController(withIdentifier:"settingsVC") as? NewCategoryViewController
             else {
             print("Can't find view controller")
             return
