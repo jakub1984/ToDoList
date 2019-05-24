@@ -79,34 +79,37 @@ class ListViewController: UITableViewController {
     
     
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
-        var textField = UITextField()
+        performSegue(withIdentifier: "toDetail", sender: UITabBarItem.self)
+
         
-        let alert = UIAlertController(title: "Add New Item", message: "", preferredStyle: .alert)
-        
-        let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
-            
-            let newItem = Tasks(context: self.context)
-            
-            
-            newItem.title = textField.text!
-            newItem.category = "Category"
-            newItem.categoryColor = "Blue"
-            newItem.completed = false
-            newItem.dueDate = nil
-            
-            self.items.insert(newItem, at: 0)
-            
-            self.saveTask()
-            
-        }
-        
-        alert.addAction(action)
-        
-        alert.addTextField { (field) in
-            textField = field
-            textField.placeholder = "Add a New Item"
-        }
-        present(alert, animated: true, completion: nil)
+//        var textField = UITextField()
+//
+//        let alert = UIAlertController(title: "Add New Item", message: "", preferredStyle: .alert)
+//
+//        let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
+//
+//            let newItem = Tasks(context: self.context)
+//
+//
+//            newItem.title = textField.text!
+//            newItem.category = "Category"
+//            newItem.categoryColor = "Blue"
+//            newItem.completed = false
+//            newItem.dueDate = nil
+//
+//            self.items.insert(newItem, at: 0)
+//
+//            self.saveTask()
+//
+//        }
+//
+//        alert.addAction(action)
+//
+//        alert.addTextField { (field) in
+//            textField = field
+//            textField.placeholder = "Add a New Item"
+//        }
+//        present(alert, animated: true, completion: nil)
         
     }
 
