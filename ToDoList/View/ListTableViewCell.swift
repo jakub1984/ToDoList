@@ -24,6 +24,7 @@ class ListTableViewCell: UITableViewCell {
         titleLbl.text = task.title
         deadlineLbl.text = "25.11."
         categoryLbl.text = task.category
+        categoryLbl.backgroundColor = uiColorFromHex(rgbValue: task.categoryColor)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -31,5 +32,14 @@ class ListTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-
+    
+    func uiColorFromHex(rgbValue: Double) -> UIColor {
+        
+        let red =   CGFloat((Int(rgbValue) & 0xFF0000) >> 16) / 0xFF
+        let green = CGFloat((Int(rgbValue) & 0x00FF00) >> 8) / 0xFF
+        let blue =  CGFloat(Int(rgbValue) & 0x0000FF) / 0xFF
+        let alpha = CGFloat(1.0)
+        
+        return UIColor(red: red, green: green, blue: blue, alpha: alpha)
+    }
 }

@@ -15,12 +15,14 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
     @IBOutlet weak var taskName: UITextField!
     @IBOutlet weak var txtDatePicker: UITextField!
     @IBOutlet weak var pickerTextField: UITextField!
-    var categories = NewCategoryViewController()
-    var list = ListViewController()
+    var categoriesVC = NewCategoryViewController()
+    var listVC = ListViewController()
     let datePicker = UIDatePicker()
     let pickerView = UIPickerView()
     var context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    var newTask : Tasks?
+    var categoryColor : Double!
+    var categoryName : String!
+    var dueDate : Date?
     
     var selectedTask: Tasks?{
         didSet{
@@ -72,12 +74,12 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
                 let newTodo = Tasks(context: context)
                 newTodo.title = title
 //                newTodo.dueDate = Date()
-                newTodo.category = "Category"
-                newTodo.categoryColor = "Blue"
+                newTodo.category = categoryName
+                newTodo.categoryColor = categoryColor
                 newTodo.completed = false
                 newTodo.dueDate = nil
 
-                list.items.insert(newTodo, at: 0)
+                listVC.items.insert(newTodo, at: 0)
             }
             
             do {
@@ -166,7 +168,7 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         let category = pickCategories[row]
         pickerTextField.text = "\(category)"
-        pickerTextField.backgroundColor = self.categories.uiColorFromHex(rgbValue: categories.colorArray[row])
+        pickerTextField.backgroundColor = self.categoriesVC.uiColorFromHex(rgbValue: categoriesVC.colorArray[row])
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -184,13 +186,16 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
             pickerLabel = UILabel()
             //color the label's background
 //            let hue = CGFloat(row)/CGFloat(pickerData.count)
-            let colors = categories.colorArray
-            pickerLabel!.backgroundColor = self.categories.uiColorFromHex(rgbValue: colors[row])
+            let colors = categoriesVC.colorArray[row]
+            pickerLabel!.backgroundColor = self.categoriesVC.uiColorFromHex(rgbValue: colors)
+            
+            categoryColor = colors
         }
         let titleData = pickCategories[row]
         let myTitle = NSAttributedString(string: titleData, attributes: [NSAttributedString.Key.font:UIFont(name: "Helvetica", size: 18.0)!,NSAttributedString.Key.foregroundColor:UIColor.darkGray])
         pickerLabel!.attributedText = myTitle
         pickerLabel!.textAlignment = .center
+        categoryName = titleData
         return pickerLabel!
     }
     
