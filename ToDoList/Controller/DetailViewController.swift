@@ -12,12 +12,15 @@ import CoreData
 class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
 
     
-    
+    @IBOutlet weak var taskName: UITextField!
     @IBOutlet weak var txtDatePicker: UITextField!
+    @IBOutlet weak var pickerTextField: UITextField!
+    var categories = NewCategoryViewController()
+    var list = ListViewController()
     let datePicker = UIDatePicker()
     let pickerView = UIPickerView()
-    @IBOutlet weak var pickerTextField: UITextField!
-    
+    var context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    var newTask : Tasks?
     
     var selectedTask: Tasks?{
         didSet{
@@ -28,20 +31,72 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         }
     }
     
-//    let colors = ["blue", "black", "green", "brown", "red"]
+    
     let pickColors = [#colorLiteral(red: 0.4745098054, green: 0.8392156959, blue: 0.9764705896, alpha: 1), #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1), #colorLiteral(red: 0.9098039269, green: 0.4784313738, blue: 0.6431372762, alpha: 1), #colorLiteral(red: 0.9568627477, green: 0.6588235497, blue: 0.5450980663, alpha: 1), #colorLiteral(red: 0.721568644, green: 0.8862745166, blue: 0.5921568871, alpha: 1)]
     let pickCategories = ["Swift","Project","Priority","Homework","Non-work"]
     
-    var context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+
+
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         pickerView.delegate = self
         showCategoryPicker()
         showDatePicker()
-        // Do any additional setup after loading the view.
+        
+        if let task = selectedTask {
+
+            taskName.text = task.title
+           
+            guard let date = task.dueDate else {
+                return
+            }
+            txtDatePicker.text = stringFromDate(date)
+            print(date)
+            pickerTextField.text = task.category
+            pickerTextField.backgroundColor = UIColor(named: "\(String(describing: task.categoryColor))")
+        }
+    }
+    
+    @IBAction func saveTaskTapped(_ sender: UIBarButtonItem) {
+        guard let title = taskName.text, !title.isEmpty else {
+//      TODO: Error handling
+//            let alert = UIAlertController(title: "Task name can't be empty", message: "", preferredStyle: .alert)
+//            present(alert, animated: true, completion: nil)
+            return
+        }
+            if let todo = self.selectedTask {
+                todo.title = title
+//                todo.priotity = Int16(segmentedControl.selectedSegmentIndex)
+            } else {
+                let newTodo = Tasks(context: context)
+                newTodo.title = title
+                newTodo.dueDate = Date()
+                list.items.insert(newTodo, at: 0)
+            }
+            
+            do {
+                try context.save()
+                navigationController?.popViewController(animated: true)
+            } catch {
+                print("Error saving todo: \(error)")
+            }
+            
+        
+        
+//        let newItem = Tasks(context: self.context)
+//
+//        newItem.title = taskName.text
+//        newItem.category = "Category"
+//        newItem.categoryColor = "Blue"
+//        newItem.completed = false
+//        newItem.dueDate = datePicker.date
+//
+//        list.items.insert(newItem, at: 0)
+//
+//        list.saveTask()
+//        list.tableView.reloadData()
     }
     
     
@@ -64,7 +119,12 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         txtDatePicker.inputView = datePicker
         
     }
-
+    
+    func stringFromDate(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd/MM/yyyy"
+        return formatter.string(from: date)
+    }
     
     @objc func doneDatePicker(){
         let formatter = DateFormatter()
@@ -79,11 +139,6 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
     
     @objc func cancelCategoryPicker(){
         self.view.endEditing(true)
-    }
-
-    @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
-        selectedTask?.dueDate = datePicker.date
-//        selectedTask?.category =
     }
     
     func showCategoryPicker() {
@@ -107,8 +162,7 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         let category = pickCategories[row]
         pickerTextField.text = "\(category)"
-        pickerTextField.backgroundColor = pickColors[row]
-
+        pickerTextField.backgroundColor = self.categories.uiColorFromHex(rgbValue: categories.colorArray[row])
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -126,10 +180,11 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
             pickerLabel = UILabel()
             //color the label's background
 //            let hue = CGFloat(row)/CGFloat(pickerData.count)
-            pickerLabel!.backgroundColor = self.pickColors[row]
+            let colors = categories.colorArray
+            pickerLabel!.backgroundColor = self.categories.uiColorFromHex(rgbValue: colors[row])
         }
         let titleData = pickCategories[row]
-        let myTitle = NSAttributedString(string: titleData, attributes: [NSAttributedString.Key.font:UIFont(name: "Helvetica", size: 18.0)!,NSAttributedString.Key.foregroundColor:UIColor.black])
+        let myTitle = NSAttributedString(string: titleData, attributes: [NSAttributedString.Key.font:UIFont(name: "Helvetica", size: 18.0)!,NSAttributedString.Key.foregroundColor:UIColor.darkGray])
         pickerLabel!.attributedText = myTitle
         pickerLabel!.textAlignment = .center
         return pickerLabel!
@@ -137,9 +192,24 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
     
     
     @IBAction func deleteTaskPressed(_ sender: UIButton) {
-        
+        if (selectedTask != nil) {
+            context.delete(selectedTask!)
+            
+            do {
+                try context.save()
+                navigationController?.popViewController(animated: true)
+
+            } catch {
+                print("Error deleting items with \(error)")
+            }
+        } else {
+            navigationController?.popViewController(animated: true)
+        }
         
     }
+    
+
+    
     
 
 }

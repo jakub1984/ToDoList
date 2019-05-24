@@ -17,8 +17,11 @@ class ListViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
         loadTasks()
-        // Do any additional setup after loading the view.
+        tableView.reloadData()
     }
     
     
@@ -106,11 +109,7 @@ class ListViewController: UITableViewController {
         present(alert, animated: true, completion: nil)
         
     }
-    
-  
-    
-    
- 
+
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         

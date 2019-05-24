@@ -512,12 +512,13 @@
                     <navigationItem key="navigationItem" title="TASK DETAIL" id="oRo-Hx-x6P">
                         <barButtonItem key="rightBarButtonItem" title="Save" id="9wD-bs-hLc">
                             <connections>
-                                <action selector="saveButtonPressed:" destination="t8q-Bs-umw" id="Ysh-qu-QaB"/>
+                                <action selector="saveTaskTapped:" destination="t8q-Bs-umw" id="Xbm-9H-D4N"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="pickerTextField" destination="1Lc-ge-9rd" id="lpT-78-k9W"/>
+                        <outlet property="taskName" destination="FAT-IB-ggd" id="Pxt-9T-9VH"/>
                         <outlet property="txtDatePicker" destination="Xlv-87-nky" id="alD-t9-jJc"/>
                     </connections>
                 </viewController>
