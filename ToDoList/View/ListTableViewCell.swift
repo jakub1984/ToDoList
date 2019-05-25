@@ -22,7 +22,9 @@ class ListTableViewCell: UITableViewCell {
     
     func setCell(task: Tasks) {
         titleLbl.text = task.title
-        deadlineLbl.text = "25.11."
+        if let date = task.dueDate {
+            deadlineLbl.text = listDate(date)
+        }
         categoryLbl.text = task.category
         categoryLbl.backgroundColor = uiColorFromHex(rgbValue: task.categoryColor)
     }
@@ -41,5 +43,11 @@ class ListTableViewCell: UITableViewCell {
         let alpha = CGFloat(1.0)
         
         return UIColor(red: red, green: green, blue: blue, alpha: alpha)
+    }
+    
+    func listDate(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd.MM."
+        return formatter.string(from: date)
     }
 }
