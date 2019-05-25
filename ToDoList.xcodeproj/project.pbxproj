@@ -64,6 +64,7 @@
 		F856854722955589007487BA /* ToDoList */ = {
 			isa = PBXGroup;
 			children = (
+				F80CDD2422989AE000A892E1 /* Helper.swift */,
 				F856854822955589007487BA /* AppDelegate.swift */,
 				F8BA943222958232000C9FB8 /* Model */,
 				F8BA94312295822C000C9FB8 /* View */,

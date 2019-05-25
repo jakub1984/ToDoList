@@ -53,8 +53,9 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
             guard let date = task.dueDate else {
                 return
             }
-            txtDatePicker.text = stringFromDate(date)
-            print(date)
+            datePicker.date = date
+            txtDatePicker.text = fullStringFromDate(date)
+            print("Date: \(date)")
             pickerTextField.text = task.category
             pickerTextField.backgroundColor = UIColor(named: "\(String(describing: task.categoryColor))")
         }
@@ -111,7 +112,6 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         //Formate Date
         datePicker.datePickerMode = .date
         
-        
         //Date picker ToolBar
         let toolbar = UIToolbar();
         toolbar.sizeToFit()
@@ -126,9 +126,17 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         
     }
     
-    func stringFromDate(_ date: Date) -> String {
+    func dateFromString(date: String) -> Date? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd/MM/yyyy HH:mm"
+        dateFormatter.timeZone = TimeZone.current
+        dateFormatter.locale = Locale.current
+        return dateFormatter.date(from: date) // replace Date String
+    }
+    
+    func fullStringFromDate(_ date: Date) -> String {
         let formatter = DateFormatter()
-        formatter.dateFormat = "dd/MM/yyyy"
+        formatter.dateFormat = "dd/MM/yyyy HH:mm"
         return formatter.string(from: date)
     }
     
@@ -136,6 +144,8 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         let formatter = DateFormatter()
         formatter.dateFormat = "dd/MM/yyyy"
         txtDatePicker.text = formatter.string(from: datePicker.date)
+        dueDate = datePicker.date
+        print(dueDate)
         self.view.endEditing(true)
     }
     
