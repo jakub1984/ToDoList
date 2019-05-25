@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 
 class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
-
+    
     
     @IBOutlet weak var taskName: UITextField!
     @IBOutlet weak var txtDatePicker: UITextField!
@@ -26,19 +26,19 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
     
     var selectedTask: Tasks?{
         didSet{
-//            loadItems()
+            //            loadItems()
             print("Title \(String(describing: self.selectedTask?.title))")
             print("Category: \(String(describing: self.selectedTask?.category))")
-
+            
         }
     }
     
     
     let pickCategories = ["Swift","Project","Priority","Homework","Non-work"]
     
-
-
-
+    
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,9 +47,9 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         showDatePicker()
         
         if let task = selectedTask {
-
+            
             taskName.text = task.title
-           
+            
             guard let date = task.dueDate else {
                 return
             }
@@ -63,47 +63,47 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
     
     @IBAction func saveTaskTapped(_ sender: UIBarButtonItem) {
         guard let title = taskName.text, !title.isEmpty else {
-//      TODO: Error handling
-//            let alert = UIAlertController(title: "Task name can't be empty", message: "", preferredStyle: .alert)
-//            present(alert, animated: true, completion: nil)
+            //      TODO: Error handling
+            //            let alert = UIAlertController(title: "Task name can't be empty", message: "", preferredStyle: .alert)
+            //            present(alert, animated: true, completion: nil)
             return
         }
-            if let todo = self.selectedTask {
-                todo.title = title
-//                todo.priotity = Int16(segmentedControl.selectedSegmentIndex)
-            } else {
-                let newTodo = Tasks(context: context)
-                newTodo.title = title
-//                newTodo.dueDate = Date()
-                newTodo.category = categoryName
-                newTodo.categoryColor = categoryColor
-                newTodo.completed = false
-                newTodo.dueDate = nil
-
-                listVC.items.insert(newTodo, at: 0)
-            }
+        if let todo = self.selectedTask {
+            todo.title = title
+            //                todo.priotity = Int16(segmentedControl.selectedSegmentIndex)
+        } else {
+            let newTodo = Tasks(context: context)
+            newTodo.title = title
+            //                newTodo.dueDate = Date()
+            newTodo.category = categoryName
+            newTodo.categoryColor = categoryColor
+            newTodo.completed = false
+            newTodo.dueDate = nil
             
-            do {
-                try context.save()
-                navigationController?.popViewController(animated: true)
-            } catch {
-                print("Error saving todo: \(error)")
-            }
-            
+            listVC.items.insert(newTodo, at: 0)
+        }
+        
+        do {
+            try context.save()
+            navigationController?.popViewController(animated: true)
+        } catch {
+            print("Error saving todo: \(error)")
+        }
         
         
-//        let newItem = Tasks(context: self.context)
-//
-//        newItem.title = taskName.text
-//        newItem.category = "Category"
-//        newItem.categoryColor = "Blue"
-//        newItem.completed = false
-//        newItem.dueDate = datePicker.date
-//
-//        list.items.insert(newItem, at: 0)
-//
-//        list.saveTask()
-//        list.tableView.reloadData()
+        
+        //        let newItem = Tasks(context: self.context)
+        //
+        //        newItem.title = taskName.text
+        //        newItem.category = "Category"
+        //        newItem.categoryColor = "Blue"
+        //        newItem.completed = false
+        //        newItem.dueDate = datePicker.date
+        //
+        //        list.items.insert(newItem, at: 0)
+        //
+        //        list.saveTask()
+        //        list.tableView.reloadData()
     }
     
     
@@ -187,7 +187,7 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return pickCategories.count
-
+        
     }
     
     func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
@@ -195,7 +195,7 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         if view == nil {  //if no label there yet
             pickerLabel = UILabel()
             //color the label's background
-//            let hue = CGFloat(row)/CGFloat(pickerData.count)
+            //            let hue = CGFloat(row)/CGFloat(pickerData.count)
             let colors = categoriesVC.colorArray[row]
             pickerLabel!.backgroundColor = self.categoriesVC.uiColorFromHex(rgbValue: colors)
             
@@ -217,7 +217,7 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
             do {
                 try context.save()
                 navigationController?.popViewController(animated: true)
-
+                
             } catch {
                 print("Error deleting items with \(error)")
             }
@@ -227,8 +227,8 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         
     }
     
-
     
     
-
+    
+    
 }
