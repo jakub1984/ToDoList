@@ -26,7 +26,6 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
     
     var selectedTask: Tasks?{
         didSet{
-            //            loadItems()
             print("Title \(String(describing: self.selectedTask?.title))")
             print("Category: \(String(describing: self.selectedTask?.category))")
             
@@ -46,39 +45,51 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         showCategoryPicker()
         showDatePicker()
         
+        
+        taskName.becomeFirstResponder()
+
         if let task = selectedTask {
             
             taskName.text = task.title
-            
-            guard let date = task.dueDate else {
-                return
+            if let date = task.dueDate {
+                txtDatePicker.text = fullStringFromDate(date)
+                datePicker.date = date
+                dueDate = date
             }
-            datePicker.date = date
-            txtDatePicker.text = fullStringFromDate(date)
-            print("Date: \(date)")
             pickerTextField.text = task.category
-            pickerTextField.backgroundColor = UIColor(named: "\(String(describing: task.categoryColor))")
+            categoryName = task.category
+//            pickerTextField.backgroundColor = UIColor(named: "\(String(describing: task.categoryColor))")
+            pickerTextField.backgroundColor = UIColor(hex: Int(task.categoryColor))
+            categoryColor = task.categoryColor
+            print("Color: \(task.categoryColor)")
         }
     }
     
     @IBAction func saveTaskTapped(_ sender: UIBarButtonItem) {
         guard let title = taskName.text, !title.isEmpty else {
+            Helper.app.showAlert(title: "Mandatory fields missing:", message: "Task name", vc: self)
+
             //      TODO: Error handling
             //            let alert = UIAlertController(title: "Task name can't be empty", message: "", preferredStyle: .alert)
             //            present(alert, animated: true, completion: nil)
             return
         }
+        
+        
         if let todo = self.selectedTask {
             todo.title = title
+            todo.category = categoryName
+            todo.categoryColor = categoryColor
+            
+            todo.dueDate = dueDate
             //                todo.priotity = Int16(segmentedControl.selectedSegmentIndex)
         } else {
             let newTodo = Tasks(context: context)
             newTodo.title = title
-            //                newTodo.dueDate = Date()
             newTodo.category = categoryName
             newTodo.categoryColor = categoryColor
             newTodo.completed = false
-            newTodo.dueDate = nil
+            newTodo.dueDate = dueDate
             
             listVC.items.insert(newTodo, at: 0)
         }
@@ -145,7 +156,6 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         formatter.dateFormat = "dd/MM/yyyy"
         txtDatePicker.text = formatter.string(from: datePicker.date)
         dueDate = datePicker.date
-        print(dueDate)
         self.view.endEditing(true)
     }
     
@@ -231,4 +241,22 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
     
     
     
+}
+
+extension UIColor {
+    convenience init(red: Int, green: Int, blue: Int) {
+        assert(red >= 0 && red <= 255, "Invalid red component")
+        assert(green >= 0 && green <= 255, "Invalid green component")
+        assert(blue >= 0 && blue <= 255, "Invalid blue component")
+
+        self.init(red: CGFloat(red) / 255.0, green: CGFloat(green) / 255.0, blue: CGFloat(blue) / 255.0, alpha: 1.0)
+    }
+
+    convenience init(hex: Int) {
+        self.init(
+            red: (hex >> 16) & 0xFF,
+            green: (hex >> 8) & 0xFF,
+            blue: hex & 0xFF
+        )
+    }
 }

@@ -69,8 +69,6 @@ class ListViewController: UITableViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destinationVC = segue.destination as? DetailViewController {
-//            if let _ = sender as? UIBarButtonItem, let destinationVC = segue.destination as? DetailViewController {
-
         if let indexPath = tableView.indexPathForSelectedRow {
             destinationVC.selectedTask = items[indexPath.row]
         }
