@@ -14,10 +14,10 @@ class Helper {
         return Helper()
     }()
     
-//    let primaryColor = UIColor.blue.alpha(0.3)
-//    let secondaryColor = UIColor.white.alpha(0.7)
-//    let defaultStateColor = UIColor.white.alpha(0.5)
-//    let placeHolderColor = UIColor.white.alpha(0.4)
+    //    let primaryColor = UIColor.blue.alpha(0.3)
+    //    let secondaryColor = UIColor.white.alpha(0.7)
+    //    let defaultStateColor = UIColor.white.alpha(0.5)
+    //    let placeHolderColor = UIColor.white.alpha(0.4)
     
     let titleTextAttribute = [NSAttributedString.Key.foregroundColor: UIColor.black, NSAttributedString.Key.font: UIFont(name: "HelveticaNeue-Thin", size: 26)!]
     
@@ -31,5 +31,5 @@ class Helper {
         alert.addAction(cancelAction)
         
         vc.present(alert, animated: true, completion: nil)
-}
+    }
 }

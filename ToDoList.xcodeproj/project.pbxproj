@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F83AFDA522992E4C00F4644F /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F83AFDA422992E4C00F4644F /* Helper.swift */; };
 		F856854922955589007487BA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F856854822955589007487BA /* AppDelegate.swift */; };
 		F856854B22955589007487BA /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F856854A22955589007487BA /* ListViewController.swift */; };
 		F856854E22955589007487BA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F856854C22955589007487BA /* Main.storyboard */; };
@@ -20,6 +21,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F83AFDA422992E4C00F4644F /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		F856854522955589007487BA /* ToDoList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ToDoList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F856854822955589007487BA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F856854A22955589007487BA /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
@@ -64,13 +66,13 @@
 		F856854722955589007487BA /* ToDoList */ = {
 			isa = PBXGroup;
 			children = (
-				F80CDD2422989AE000A892E1 /* Helper.swift */,
 				F856854822955589007487BA /* AppDelegate.swift */,
 				F8BA943222958232000C9FB8 /* Model */,
 				F8BA94312295822C000C9FB8 /* View */,
 				F8BA943022958222000C9FB8 /* Controller */,
 				F85685522295558A007487BA /* Assets.xcassets */,
 				F85685572295558A007487BA /* Info.plist */,
+				F83AFDA422992E4C00F4644F /* Helper.swift */,
 			);
 			path = ToDoList;
 			sourceTree = "<group>";
@@ -182,6 +184,7 @@
 				F8BA943422958611000C9FB8 /* NewCategoryViewController.swift in Sources */,
 				F8BA94382295EFCD000C9FB8 /* ListTableViewCell.swift in Sources */,
 				F8AAD06C2297CCA500A3D4BD /* SettingsTableViewController.swift in Sources */,
+				F83AFDA522992E4C00F4644F /* Helper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
