@@ -13,8 +13,10 @@ class ListViewController: UITableViewController {
     
     var items = [Tasks]()
     var categories = [Categories]()
+    var sortedTasks = [Tasks]()
     var defaultCategories : [String] = ["Swift","Project","Priority","Homework","Non-work"]
     var defaultColors : [Double] = [0x79A700, 0xF68B2C, 0xF5522D, 0xE2B400, 0xFF6E83]
+//    var sortedTasks = [Tasks]()
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
@@ -42,7 +44,7 @@ class ListViewController: UITableViewController {
             }
             print(categories)
         }
-        
+
         loadTasks()
         loadCategories()
         tableView.reloadData()
@@ -67,7 +69,10 @@ class ListViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as? ListTableViewCell {
-            let item = items[indexPath.row]
+            sortedTasks = items.sorted{
+                ($0.dueDate ?? .distantFuture) < ($1.dueDate ?? .distantFuture)
+            }
+            let item = sortedTasks[indexPath.row]
             cell.setCell(task: item)
             //        cell.accessoryType = item.completed ? .checkmark : .none
             if item.completed {
@@ -102,7 +107,7 @@ class ListViewController: UITableViewController {
         if let indexPath = tableView.indexPathForSelectedRow {
             print("indexpath: \(indexPath)")
 
-            destinationVC.selectedTask = items[indexPath.row]
+            destinationVC.selectedTask = sortedTasks[indexPath.row]
         }
             
         }
@@ -149,7 +154,7 @@ class ListViewController: UITableViewController {
         
         if (editingStyle == .delete) {
             
-            let item = items[indexPath.row]
+            let item = sortedTasks[indexPath.row]
             items.remove(at: indexPath.row)
             context.delete(item)
             
@@ -165,10 +170,10 @@ class ListViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let taskCompletion = items[indexPath.row].completed ? "Restart" : "Complete"
+        let taskCompletion = sortedTasks[indexPath.row].completed ? "Restart" : "Complete"
         let action = UIContextualAction(style: .normal, title: taskCompletion) { (action, view, completion) in
             
-            self.items[indexPath.row].completed = !self.items[indexPath.row].completed
+            self.sortedTasks[indexPath.row].completed = !self.sortedTasks[indexPath.row].completed
 
             do{
                 try self.context.save()

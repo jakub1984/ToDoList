@@ -31,14 +31,14 @@
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="GT3-xb-pMe">
                                             <rect key="frame" x="8" y="8" width="64.333333333333329" height="38.666666666666664"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="26.07." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="pe3-zW-wRK">
-                                                    <rect key="frame" x="0.0" y="0.0" width="64.333333333333329" height="22.666666666666668"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="pe3-zW-wRK">
+                                                    <rect key="frame" x="0.0" y="0.0" width="64.333333333333329" height="19.333333333333332"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="23"/>
                                                     <color key="textColor" red="0.17254901960784313" green="0.56470588235294117" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="750" text="10:00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="OoC-a5-VZ3">
-                                                    <rect key="frame" x="0.0" y="22.666666666666668" width="64.333333333333329" height="16.000000000000004"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="750" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="OoC-a5-VZ3">
+                                                    <rect key="frame" x="0.0" y="19.333333333333336" width="64.333333333333329" height="19.333333333333336"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" red="0.17254901959999999" green="0.56470588239999997" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -48,6 +48,7 @@
                                                 <constraint firstItem="pe3-zW-wRK" firstAttribute="leading" secondItem="GT3-xb-pMe" secondAttribute="leading" id="54A-pv-WRb"/>
                                                 <constraint firstItem="OoC-a5-VZ3" firstAttribute="leading" secondItem="GT3-xb-pMe" secondAttribute="leading" id="5tD-b9-0hI"/>
                                                 <constraint firstAttribute="trailing" secondItem="OoC-a5-VZ3" secondAttribute="trailing" id="ICM-Or-ii8"/>
+                                                <constraint firstItem="OoC-a5-VZ3" firstAttribute="width" secondItem="pe3-zW-wRK" secondAttribute="width" id="MOY-8w-Sx5"/>
                                                 <constraint firstAttribute="trailing" secondItem="pe3-zW-wRK" secondAttribute="trailing" id="Sxa-hv-JMK"/>
                                                 <constraint firstItem="pe3-zW-wRK" firstAttribute="top" secondItem="GT3-xb-pMe" secondAttribute="top" id="xET-gc-Fwi"/>
                                             </constraints>
