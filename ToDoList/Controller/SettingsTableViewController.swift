@@ -34,14 +34,12 @@ class SettingsTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     @IBAction func switchTapped(_ sender: UISwitch) {
-//        if switcher.isOn {
-//            
-//        } else {
-//            UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
-//
-//        }
-        
+        if switcher.isOn {
+        } else {
+            UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+        }
     }
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 2

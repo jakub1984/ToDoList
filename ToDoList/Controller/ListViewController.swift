@@ -17,17 +17,24 @@ class ListViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+      
     }
     
     override func viewWillAppear(_ animated: Bool) {
         loadTasks()
+        self.tableView.rowHeight = 90;
         tableView.reloadData()
     }
     
-    
+
     //MARK: TableView DataSource Methods
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if items.count == 0 {
+            self.tableView.setEmptyMessage("All tasks are completed")
+        } else {
+            self.tableView.restore()
+        }
         return items.count
     }
     
@@ -70,8 +77,11 @@ class ListViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destinationVC = segue.destination as? DetailViewController {
         if let indexPath = tableView.indexPathForSelectedRow {
+            print("indexpath: \(indexPath)")
+
             destinationVC.selectedTask = items[indexPath.row]
         }
+            
         }
     }
     
@@ -188,4 +198,24 @@ class ListViewController: UITableViewController {
         return true
     }
     
+}
+
+extension UITableView {
+    
+    func setEmptyMessage(_ message: String) {
+        let messageLabel = UILabel(frame: CGRect(x: 0, y: 0, width: self.bounds.size.width, height: self.bounds.size.height))
+        messageLabel.text = message
+        messageLabel.textColor = .black
+        messageLabel.numberOfLines = 0;
+        messageLabel.textAlignment = .center;
+        messageLabel.sizeToFit()
+        
+        self.backgroundView = messageLabel;
+        self.separatorStyle = .none;
+    }
+    
+    func restore() {
+        self.backgroundView = nil
+        self.separatorStyle = .singleLine
+    }
 }
