@@ -39,7 +39,7 @@ class ListViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 90
+        return 55
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -48,7 +48,7 @@ class ListViewController: UITableViewController {
             cell.setCell(task: item)
             //        cell.accessoryType = item.completed ? .checkmark : .none
             if item.completed {
-                cell.backgroundColor = .green
+                cell.backgroundColor = #colorLiteral(red: 0.822776258, green: 1, blue: 0.007328291889, alpha: 1)
             } else {
                 cell.backgroundColor = .white
             }
@@ -145,9 +145,7 @@ class ListViewController: UITableViewController {
         let taskCompletion = items[indexPath.row].completed ? "Restart" : "Complete"
         let action = UIContextualAction(style: .normal, title: taskCompletion) { (action, view, completion) in
             
-            action.backgroundColor = .green
             self.items[indexPath.row].completed = !self.items[indexPath.row].completed
-            print("Completed: \(self.items[indexPath.row].completed)")
 
             do{
                 try self.context.save()
@@ -156,18 +154,8 @@ class ListViewController: UITableViewController {
                 print("Error saving item with \(error)")
             }
             tableView.reloadData()
-            
-            
-            
-            
         }
-        //        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-//
-//        if items[indexPath.row].completed {
-//            cell.backgroundColor = .green
-//        } else {
-//            cell.backgroundColor = .white
-//        }
+        action.backgroundColor = #colorLiteral(red: 0.4745098039, green: 0.6549019608, blue: 0, alpha: 1)
 
         return UISwipeActionsConfiguration(actions: [action])
     }

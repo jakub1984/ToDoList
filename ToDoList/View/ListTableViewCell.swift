@@ -13,6 +13,7 @@ class ListTableViewCell: UITableViewCell {
     @IBOutlet weak var titleLbl: UILabel!
     @IBOutlet weak var deadlineLbl: UILabel!
     @IBOutlet weak var categoryLbl: UILabel!
+    @IBOutlet weak var hourLbl: UILabel!
     
     
     override func awakeFromNib() {
@@ -24,6 +25,7 @@ class ListTableViewCell: UITableViewCell {
         titleLbl.text = task.title
         if let date = task.dueDate {
             deadlineLbl.text = listDate(date)
+            hourLbl.text = hourDate(date)
         }
         categoryLbl.text = task.category
         categoryLbl.backgroundColor = uiColorFromHex(rgbValue: task.categoryColor)
@@ -48,6 +50,12 @@ class ListTableViewCell: UITableViewCell {
     func listDate(_ date: Date) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "dd.MM."
+        return formatter.string(from: date)
+    }
+    
+    func hourDate(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm"
         return formatter.string(from: date)
     }
 }

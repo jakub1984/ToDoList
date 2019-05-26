@@ -32,12 +32,7 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         }
     }
     
-    
     let pickCategories = ["Swift","Project","Priority","Homework","Non-work"]
-    
-    
-    
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -101,29 +96,15 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         } catch {
             print("Error saving todo: \(error)")
         }
-        
-        
-        
-        //        let newItem = Tasks(context: self.context)
-        //
-        //        newItem.title = taskName.text
-        //        newItem.category = "Category"
-        //        newItem.categoryColor = "Blue"
-        //        newItem.completed = false
-        //        newItem.dueDate = datePicker.date
-        //
-        //        list.items.insert(newItem, at: 0)
-        //
-        //        list.saveTask()
-        //        list.tableView.reloadData()
     }
     
     
     
     func showDatePicker(){
         //Formate Date
-        datePicker.datePickerMode = .date
-        
+        datePicker.datePickerMode = .dateAndTime
+        datePicker.minuteInterval = 15
+
         //Date picker ToolBar
         let toolbar = UIToolbar();
         toolbar.sizeToFit()
@@ -140,7 +121,7 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
     
     func dateFromString(date: String) -> Date? {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd/MM/yyyy HH:mm"
+        dateFormatter.dateFormat = "dd.MM.yyyy HH:mm"
         dateFormatter.timeZone = TimeZone.current
         dateFormatter.locale = Locale.current
         return dateFormatter.date(from: date) // replace Date String
@@ -148,13 +129,13 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
     
     func fullStringFromDate(_ date: Date) -> String {
         let formatter = DateFormatter()
-        formatter.dateFormat = "dd/MM/yyyy HH:mm"
+        formatter.dateFormat = "dd.MM.yyyy HH:mm"
         return formatter.string(from: date)
     }
     
     @objc func doneDatePicker(){
         let formatter = DateFormatter()
-        formatter.dateFormat = "dd/MM/yyyy"
+        formatter.dateFormat = "dd.MM.yyyy HH:mm"
         txtDatePicker.text = formatter.string(from: datePicker.date)
         dueDate = datePicker.date
         self.view.endEditing(true)
