@@ -67,26 +67,27 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
     
     @IBAction func saveTaskTapped(_ sender: UIBarButtonItem) {
         guard let title = taskName.text, !title.isEmpty else {
-            Helper.app.showAlert(title: "Mandatory fields missing:", message: "Task name", vc: self)
-
-            //      TODO: Error handling
-            //            let alert = UIAlertController(title: "Task name can't be empty", message: "", preferredStyle: .alert)
-            //            present(alert, animated: true, completion: nil)
+            Helper.app.showAlert(title: "Mandatory fields missing:", message: "Please select name", vc: self)
+            taskName.becomeFirstResponder()
+            return
+        }
+        
+        guard let category = categoryName, !category.isEmpty else {
+            Helper.app.showAlert(title: "Mandatory fields missing:", message: "Please select category", vc: self)
+            pickerView.becomeFirstResponder()
             return
         }
         
         
         if let todo = self.selectedTask {
             todo.title = title
-            todo.category = categoryName
+            todo.category = category
             todo.categoryColor = categoryColor
-            
             todo.dueDate = dueDate
-            //                todo.priotity = Int16(segmentedControl.selectedSegmentIndex)
         } else {
             let newTodo = Tasks(context: context)
             newTodo.title = title
-            newTodo.category = categoryName
+            newTodo.category = category
             newTodo.categoryColor = categoryColor
             newTodo.completed = false
             newTodo.dueDate = dueDate

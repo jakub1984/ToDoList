@@ -260,6 +260,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="nameLbl" destination="aY2-Vz-xuS" id="6qL-nM-dkQ"/>
                         <outlet property="selectedColorView" destination="z2p-G5-kVV" id="Bji-6O-OgM"/>
                         <outlet property="slider" destination="3Hv-MG-Eon" id="nb1-Mf-j3p"/>
                     </connections>
@@ -287,7 +288,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="43" translatesAutoresizingMaskIntoConstraints="NO" id="jrw-nW-xde" userLabel="Notifications Stack View">
-                                                    <rect key="frame" x="16" y="6.6666666666666679" width="343" height="30.333333333333332"/>
+                                                    <rect key="frame" x="16" y="6.6666666666666696" width="343" height="30.333333333333329"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Turn on notifications" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sNZ-HP-jgI">
                                                             <rect key="frame" x="0.0" y="4.9999999999999982" width="251" height="20.333333333333329"/>
@@ -297,6 +298,9 @@
                                                         </label>
                                                         <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="us0-au-j5z">
                                                             <rect key="frame" x="294" y="0.0" width="51" height="30.333333333333332"/>
+                                                            <connections>
+                                                                <action selector="switchTapped:" destination="2eZ-zk-rYL" eventType="valueChanged" id="juN-8V-Sbz"/>
+                                                            </connections>
                                                         </switch>
                                                     </subviews>
                                                 </stackView>
@@ -345,6 +349,10 @@
                             <outlet property="delegate" destination="2eZ-zk-rYL" id="tyx-CM-nvd"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <outlet property="switch" destination="us0-au-j5z" id="FDw-uz-Eu0"/>
+                        <outlet property="switcher" destination="us0-au-j5z" id="Sgs-jy-2g7"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NmB-iU-j9c" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

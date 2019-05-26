@@ -7,12 +7,23 @@
 //
 
 import UIKit
+import UserNotifications
+import CoreData
 
 class SettingsTableViewController: UITableViewController {
+    var items = [Tasks]()
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
 
+    @IBOutlet weak var switcher: UISwitch!
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        let request: NSFetchRequest<Tasks> = Tasks.fetchRequest()
+        do {
+            items = try context.fetch(request)
+        }catch{
+            print("Error fetching data from context \(error)")
+        }
+        print(items)
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -22,6 +33,15 @@ class SettingsTableViewController: UITableViewController {
 
     // MARK: - Table view data source
 
+    @IBAction func switchTapped(_ sender: UISwitch) {
+//        if switcher.isOn {
+//            
+//        } else {
+//            UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+//
+//        }
+        
+    }
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 2
