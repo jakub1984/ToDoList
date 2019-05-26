@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14490.99" systemVersion="18E226" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Categories" representedClassName="Categories" syncable="YES" codeGenerationType="class">
+        <attribute name="categoryColor" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="categoryName" attributeType="String" syncable="YES"/>
+    </entity>
     <entity name="Tasks" representedClassName="Tasks" syncable="YES" codeGenerationType="class">
         <attribute name="category" attributeType="String" syncable="YES"/>
         <attribute name="categoryColor" attributeType="Double" usesScalarValueType="YES" syncable="YES"/>
@@ -9,5 +13,6 @@
     </entity>
     <elements>
         <element name="Tasks" positionX="-63" positionY="-18" width="128" height="120"/>
+        <element name="Categories" positionX="-63" positionY="18" width="128" height="75"/>
     </elements>
 </model>

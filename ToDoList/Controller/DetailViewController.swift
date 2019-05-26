@@ -23,7 +23,7 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
     var categoryColor : Double!
     var categoryName : String!
     var dueDate : Date?
-    
+    var categories : Categories?
     var selectedTask: Tasks?{
         didSet{
             print("Title \(String(describing: self.selectedTask?.title))")

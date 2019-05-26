@@ -12,6 +12,9 @@ import CoreData
 class ListViewController: UITableViewController {
     
     var items = [Tasks]()
+    var categories = [Categories]()
+    var defaultCategories : [String] = ["Swift","Project","Priority","Homework","Non-work"]
+    var defaultColors : [Double] = [0x79A700, 0xF68B2C, 0xF5522D, 0xE2B400, 0xFF6E83]
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
@@ -21,9 +24,29 @@ class ListViewController: UITableViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        if categories.isEmpty {
+            
+            for i in 0 ..< defaultCategories.count {
+//                print("Category: \(defaultCategories[i]) colors: \(defaultColors[i])")
+                let newCategory = Categories(context: context)
+                newCategory.categoryColor = defaultColors[i]
+                newCategory.categoryName = defaultCategories[i]
+                categories.append(newCategory)
+            }
+            
+            do {
+                try context.save()
+                print("saved")
+            } catch {
+                print("Error saving todo: \(error)")
+            }
+            print(categories)
+        }
+        
         loadTasks()
-        self.tableView.rowHeight = 90;
+        loadCategories()
         tableView.reloadData()
+        
     }
     
 
@@ -48,7 +71,7 @@ class ListViewController: UITableViewController {
             cell.setCell(task: item)
             //        cell.accessoryType = item.completed ? .checkmark : .none
             if item.completed {
-                cell.backgroundColor = #colorLiteral(red: 0.822776258, green: 1, blue: 0.007328291889, alpha: 1)
+                cell.backgroundColor = #colorLiteral(red: 0.8320295215, green: 0.9826709628, blue: 0, alpha: 1)
             } else {
                 cell.backgroundColor = .white
             }
@@ -155,7 +178,7 @@ class ListViewController: UITableViewController {
             }
             tableView.reloadData()
         }
-        action.backgroundColor = #colorLiteral(red: 0.4745098039, green: 0.6549019608, blue: 0, alpha: 1)
+        action.backgroundColor = .green
 
         return UISwipeActionsConfiguration(actions: [action])
     }
@@ -166,6 +189,17 @@ class ListViewController: UITableViewController {
         
         do {
             items = try context.fetch(request)
+        }catch{
+            print("Error fetching data from context \(error)")
+        }
+        tableView.reloadData()
+    }
+    
+    func loadCategories(){
+        let request: NSFetchRequest<Categories> = Categories.fetchRequest()
+        
+        do {
+            categories = try context.fetch(request)
         }catch{
             print("Error fetching data from context \(error)")
         }
