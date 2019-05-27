@@ -26,6 +26,9 @@ class ListViewController: UITableViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        loadCategories()
+        loadTasks()
+
         if categories.isEmpty {
             
             for i in 0 ..< defaultCategories.count {
@@ -35,56 +38,26 @@ class ListViewController: UITableViewController {
                 newCategory.categoryName = defaultCategories[i]
                 categories.append(newCategory)
             }
-            
+
             do {
                 try context.save()
                 print("saved")
             } catch {
                 print("Error saving todo: \(error)")
             }
-            print(categories)
         }
 
-        loadTasks()
+        print("CategoriesList: \(categories)")
+
         print("item: \(items)")
-        loadCategories()
         scheduleLocal()
 
         tableView.reloadData()
         
     }
     
-    @objc func scheduleLocal() {
-        let switchOn: Bool = (UserDefaults.standard.value(forKey: "SwitchState") as? Bool ?? false)
-        
-        if switchOn {
-            let center = UNUserNotificationCenter.current()
-            center.removeAllPendingNotificationRequests()
-            
-            print("ScheduleLocal started")
-            
-            for i in 0 ..< items.count {
-                if items[i].dueDate != nil && items[i].completed == false {
-                    let content = UNMutableNotificationContent()
-                    content.title = "You have task to complete:"
-                    content.body = items[i].title!
-                    content.categoryIdentifier = "todo"
-                    //            content.userInfo = ["customData": "fizzbuzz"]
-                    content.sound = UNNotificationSound.default
-                    let date = items[i].dueDate!
-                    var triggerDate = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
-                    triggerDate.second = 0
-                    let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: true)
-                    //            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
-                    
-                    let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
-                    center.add(request)
-                    print("Notification created: \(content.body)")
-                    print("Trigger date: \(triggerDate)")
-                }
-            }
-        }
-    }
+    
+
     
     //MARK: TableView DataSource Methods
     
@@ -213,15 +186,47 @@ class ListViewController: UITableViewController {
         tableView.reloadData()
     }
     
-    func saveTask() {
-        do{
-            try context.save()
-        }catch {
-            print("Error saving item with \(error)")
-        }
-        tableView.reloadData()
-    }
+//    func saveTask() {
+//        do{
+//            try context.save()
+//        }catch {
+//            print("Error saving item with \(error)")
+//        }
+//        tableView.reloadData()
+//    }
     
+//   Setup local notifications - you will get local notification at the task deadline if deadline is set.
+    @objc func scheduleLocal() {
+        let switchOn: Bool = (UserDefaults.standard.value(forKey: "SwitchState") as? Bool ?? false)
+        
+        if switchOn {
+            let center = UNUserNotificationCenter.current()
+            center.removeAllPendingNotificationRequests()
+            
+            print("ScheduleLocal started")
+            
+            for i in 0 ..< items.count {
+                if items[i].dueDate != nil && items[i].completed == false {
+                    let content = UNMutableNotificationContent()
+                    content.title = "You have task to complete:"
+                    content.body = items[i].title!
+                    content.categoryIdentifier = "todo"
+                    //            content.userInfo = ["customData": "fizzbuzz"]
+                    content.sound = UNNotificationSound.default
+                    let date = items[i].dueDate!
+                    var triggerDate = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
+                    triggerDate.second = 0
+                    let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: true)
+                    //            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
+                    
+                    let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+                    center.add(request)
+                    print("Notification created: \(content.body)")
+                    print("Trigger date: \(triggerDate)")
+                }
+            }
+        }
+    }
     
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true

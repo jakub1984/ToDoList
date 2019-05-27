@@ -15,31 +15,27 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
     @IBOutlet weak var taskName: UITextField!
     @IBOutlet weak var txtDatePicker: UITextField!
     @IBOutlet weak var pickerTextField: UITextField!
-    var categoriesVC = NewCategoryViewController()
     var listVC = ListViewController()
     let datePicker = UIDatePicker()
     let pickerView = UIPickerView()
-    var context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var categoryColor : Double!
     var categoryName : String!
+//    var categoryColorsArray = [Double]()
+//    var categoryNameArray = [String]()
     var dueDate : Date?
-    var categories : Categories?
-    var selectedTask: Tasks?{
-        didSet{
-            print("Title \(String(describing: self.selectedTask?.title))")
-            print("Category: \(String(describing: self.selectedTask?.category))")
-            
-        }
-    }
+    var categories = [Categories]()
+    var selectedTask: Tasks?
+
     
-    let pickCategories = ["Swift","Project","Priority","Homework","Non-work"]
+    
+//    let pickCategories = ["Swift","Project","Priority","Homework","Non-work"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         pickerView.delegate = self
         showCategoryPicker()
         showDatePicker()
-        
         
         taskName.becomeFirstResponder()
 
@@ -57,7 +53,47 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
             pickerTextField.backgroundColor = UIColor(hex: Int(task.categoryColor))
             categoryColor = task.categoryColor
             print("Color: \(task.categoryColor)")
+            
         }
+        
+    }
+    
+//    func retrieveData() {
+//
+//        //Prepare the request of type NSFetchRequest  for the entity
+//        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Categories")
+//
+//                fetchRequest.fetchLimit = 1
+//                fetchRequest.predicate = NSPredicate(format: "username = %@", "Ankur")
+//                fetchRequest.sortDescriptors = [NSSortDescriptor.init(key: "email", ascending: false)]
+//
+//        do {
+//            let result = try context.fetch(fetchRequest)
+//            for data in result as! [NSManagedObject] {
+//                categoryColorsArray.append(data.value(forKey: "categoryColor") as! Double)
+//                categoryNameArray.append(data.value(forKey: "categoryName") as! String)
+//                print(data.value(forKey: "categoryColor") as! Double)
+//                print("categorycolorsarray: \(categoryColorsArray)")
+//            }
+//
+//        } catch {
+//            print("Failed to get the data")
+//        }
+//    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        
+        let request: NSFetchRequest<Categories> = Categories.fetchRequest()
+        
+        do {
+            categories = try context.fetch(request)
+            pickerView.reloadAllComponents()
+        }catch{
+            print("Error fetching data from context \(error)")
+        }
+        print("categories: \(categories)")
+        
+//        retrieveData()
     }
     
     @IBAction func saveTaskTapped(_ sender: UIBarButtonItem) {
@@ -87,12 +123,14 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
             newTodo.completed = false
             newTodo.dueDate = dueDate
             
-            listVC.items.insert(newTodo, at: 0)
+            listVC.items.append(newTodo)
         }
         
         do {
             try context.save()
             navigationController?.popViewController(animated: true)
+            print("categoryToPass: \(category)")
+
         } catch {
             print("Error saving todo: \(error)")
         }
@@ -151,6 +189,7 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         self.view.endEditing(true)
     }
     
+//    Category picker
     func showCategoryPicker() {
         
         let toolbar = UIToolbar();
@@ -166,13 +205,16 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return pickCategories[row]
+        return categories[row].categoryName
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        let category = pickCategories[row]
-        pickerTextField.text = "\(category)"
-        pickerTextField.backgroundColor = self.categoriesVC.uiColorFromHex(rgbValue: categoriesVC.colorArray[row])
+        let category = categories[row].categoryName
+        let color = categories[row].categoryColor
+        pickerTextField.text = category
+        pickerTextField.backgroundColor = UIColor(hex: Int(color))
+        categoryName = category
+        categoryColor = color
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -180,26 +222,24 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return pickCategories.count
+        return categories.count
         
     }
     
     func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
         var pickerLabel = view as! UILabel?
+        
         if view == nil {  //if no label there yet
             pickerLabel = UILabel()
             //color the label's background
             //            let hue = CGFloat(row)/CGFloat(pickerData.count)
-            let colors = categoriesVC.colorArray[row]
-            pickerLabel!.backgroundColor = self.categoriesVC.uiColorFromHex(rgbValue: colors)
-            
-            categoryColor = colors
+            let colors = categories[row].categoryColor
+            pickerLabel!.backgroundColor = UIColor(hex: Int(colors))
         }
-        let titleData = pickCategories[row]
-        let myTitle = NSAttributedString(string: titleData, attributes: [NSAttributedString.Key.font:UIFont(name: "Helvetica", size: 18.0)!,NSAttributedString.Key.foregroundColor:UIColor.darkGray])
+        let titleData = categories[row].categoryName
+        let myTitle = NSAttributedString(string: titleData!, attributes: [NSAttributedString.Key.font:UIFont(name: "Helvetica", size: 18.0)!])
         pickerLabel!.attributedText = myTitle
         pickerLabel!.textAlignment = .center
-        categoryName = titleData
         return pickerLabel!
     }
     

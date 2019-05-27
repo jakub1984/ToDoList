@@ -8,19 +8,17 @@
 
 import Foundation
 import UIKit
+import CoreData
 
 class Helper {
     static var app: Helper = {
         return Helper()
     }()
     
-    //    let primaryColor = UIColor.blue.alpha(0.3)
-    //    let secondaryColor = UIColor.white.alpha(0.7)
-    //    let defaultStateColor = UIColor.white.alpha(0.5)
-    //    let placeHolderColor = UIColor.white.alpha(0.4)
-    
-    let titleTextAttribute = [NSAttributedString.Key.foregroundColor: UIColor.black, NSAttributedString.Key.font: UIFont(name: "HelveticaNeue-Thin", size: 26)!]
-    
+    var categories = [Categories]()
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+
+
     func showAlert(title: String, message:String, vc: UIViewController) {
         let alert = UIAlertController(title: title, message: message,    preferredStyle: .alert)
         
@@ -32,4 +30,16 @@ class Helper {
         
         vc.present(alert, animated: true, completion: nil)
     }
+    
+    func loadCategories(){
+        let request: NSFetchRequest<Categories> = Categories.fetchRequest()
+        
+        do {
+            categories = try context.fetch(request)
+        }catch{
+            print("Error fetching data from context \(error)")
+        }
+//        tableView.reloadData()
+    }
+
 }
