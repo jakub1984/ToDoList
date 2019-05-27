@@ -78,7 +78,7 @@ class ListViewController: UITableViewController {
             if item.completed {
                 cell.backgroundColor = #colorLiteral(red: 0.8320295215, green: 0.9826709628, blue: 0, alpha: 1)
             } else {
-                cell.backgroundColor = .white
+                cell.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
             }
             return cell
         }

@@ -104,6 +104,8 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         //Formate Date
         datePicker.datePickerMode = .dateAndTime
         datePicker.minuteInterval = 15
+        datePicker.locale = Locale(identifier: "en_GB")
+
 
         //Date picker ToolBar
         let toolbar = UIToolbar();
