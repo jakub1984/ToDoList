@@ -15,7 +15,6 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
     @IBOutlet weak var taskName: UITextField!
     @IBOutlet weak var txtDatePicker: UITextField!
     @IBOutlet weak var pickerTextField: UITextField!
-    var listVC = ListViewController()
     let datePicker = UIDatePicker()
     let pickerView = UIPickerView()
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -57,29 +56,6 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         }
         
     }
-    
-//    func retrieveData() {
-//
-//        //Prepare the request of type NSFetchRequest  for the entity
-//        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Categories")
-//
-//                fetchRequest.fetchLimit = 1
-//                fetchRequest.predicate = NSPredicate(format: "username = %@", "Ankur")
-//                fetchRequest.sortDescriptors = [NSSortDescriptor.init(key: "email", ascending: false)]
-//
-//        do {
-//            let result = try context.fetch(fetchRequest)
-//            for data in result as! [NSManagedObject] {
-//                categoryColorsArray.append(data.value(forKey: "categoryColor") as! Double)
-//                categoryNameArray.append(data.value(forKey: "categoryName") as! String)
-//                print(data.value(forKey: "categoryColor") as! Double)
-//                print("categorycolorsarray: \(categoryColorsArray)")
-//            }
-//
-//        } catch {
-//            print("Failed to get the data")
-//        }
-//    }
     
     override func viewWillAppear(_ animated: Bool) {
         
@@ -123,7 +99,6 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
             newTodo.completed = false
             newTodo.dueDate = dueDate
             
-            listVC.items.append(newTodo)
         }
         
         do {

@@ -20,13 +20,13 @@ class Helper {
 
 
     func showAlert(title: String, message:String, vc: UIViewController) {
-        let alert = UIAlertController(title: title, message: message,    preferredStyle: .alert)
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
         let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+//        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
         alert.addAction(okAction)
-        alert.addAction(cancelAction)
+//        alert.addAction(cancelAction)
         
         vc.present(alert, animated: true, completion: nil)
     }
