@@ -55,7 +55,7 @@ class ListViewController: UITableViewController {
     }
     
     @objc func scheduleLocal() {
-        let switchOn: Bool = UserDefaults.standard.value(forKey: "SwitchState")  as! Bool
+        let switchOn: Bool = (UserDefaults.standard.value(forKey: "SwitchState") as? Bool ?? false)
         
         if switchOn {
             let center = UNUserNotificationCenter.current()
