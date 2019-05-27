@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import UserNotifications
 
 class ListViewController: UITableViewController {
     
@@ -16,7 +17,6 @@ class ListViewController: UITableViewController {
     var sortedTasks = [Tasks]()
     var defaultCategories : [String] = ["Swift","Project","Priority","Homework","Non-work"]
     var defaultColors : [Double] = [0x79A700, 0xF68B2C, 0xF5522D, 0xE2B400, 0xFF6E83]
-//    var sortedTasks = [Tasks]()
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
@@ -46,12 +46,46 @@ class ListViewController: UITableViewController {
         }
 
         loadTasks()
+        print("item: \(items)")
         loadCategories()
+        scheduleLocal()
+
         tableView.reloadData()
         
     }
     
-
+    @objc func scheduleLocal() {
+        let switchOn: Bool = UserDefaults.standard.value(forKey: "SwitchState")  as! Bool
+        
+        if switchOn {
+            let center = UNUserNotificationCenter.current()
+            center.removeAllPendingNotificationRequests()
+            
+            print("ScheduleLocal started")
+            
+            for i in 0 ..< items.count {
+                if items[i].dueDate != nil && items[i].completed == false {
+                    let content = UNMutableNotificationContent()
+                    content.title = "You have task to complete:"
+                    content.body = items[i].title!
+                    content.categoryIdentifier = "todo"
+                    //            content.userInfo = ["customData": "fizzbuzz"]
+                    content.sound = UNNotificationSound.default
+                    let date = items[i].dueDate!
+                    var triggerDate = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
+                    triggerDate.second = 0
+                    let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: true)
+                    //            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
+                    
+                    let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+                    center.add(request)
+                    print("Notification created: \(content.body)")
+                    print("Trigger date: \(triggerDate)")
+                }
+            }
+        }
+    }
+    
     //MARK: TableView DataSource Methods
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -62,10 +96,7 @@ class ListViewController: UITableViewController {
         }
         return items.count
     }
-    
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 55
-    }
+
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as? ListTableViewCell {
@@ -116,37 +147,6 @@ class ListViewController: UITableViewController {
     
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
         performSegue(withIdentifier: "toDetail", sender: UITabBarItem.self)
-
-        
-//        var textField = UITextField()
-//
-//        let alert = UIAlertController(title: "Add New Item", message: "", preferredStyle: .alert)
-//
-//        let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
-//
-//            let newItem = Tasks(context: self.context)
-//
-//
-//            newItem.title = textField.text!
-//            newItem.category = "Category"
-//            newItem.categoryColor = "Blue"
-//            newItem.completed = false
-//            newItem.dueDate = nil
-//
-//            self.items.insert(newItem, at: 0)
-//
-//            self.saveTask()
-//
-//        }
-//
-//        alert.addAction(action)
-//
-//        alert.addTextField { (field) in
-//            textField = field
-//            textField.placeholder = "Add a New Item"
-//        }
-//        present(alert, animated: true, completion: nil)
-        
     }
 
     
@@ -160,6 +160,7 @@ class ListViewController: UITableViewController {
             
             do {
                 try context.save()
+                scheduleLocal()
             } catch {
                 print("Error deleting items with \(error)")
             }
@@ -178,13 +179,14 @@ class ListViewController: UITableViewController {
             do{
                 try self.context.save()
                 completion(true)
+                self.scheduleLocal()
+
             }catch {
                 print("Error saving item with \(error)")
             }
             tableView.reloadData()
         }
         action.backgroundColor = .green
-
         return UISwipeActionsConfiguration(actions: [action])
     }
     

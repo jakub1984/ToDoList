@@ -23,6 +23,12 @@ class SettingsTableViewController: UITableViewController {
         }catch{
             print("Error fetching data from context \(error)")
         }
+        
+        let defaults = UserDefaults.standard
+        
+        if (defaults.object(forKey: "SwitchState") != nil) {
+            switcher.isOn = defaults.bool(forKey: "SwitchState")
+        }
         print(items)
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -34,11 +40,31 @@ class SettingsTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     @IBAction func switchTapped(_ sender: UISwitch) {
+        let defaults = UserDefaults.standard
+        
         if switcher.isOn {
+            defaults.set(true, forKey: "SwitchState")
+            registerLocal()
+            
         } else {
+            defaults.set(false, forKey: "SwitchState")
             UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
         }
+
     }
+    
+    @objc func registerLocal() {
+        let center = UNUserNotificationCenter.current()
+        
+        center.requestAuthorization(options: [.alert, .badge, .sound]) { (granted, error) in
+            if granted {
+                print("Permission granted")
+            } else {
+                print("Permission denied")
+            }
+        }
+    }
+    
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
