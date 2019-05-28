@@ -209,7 +209,7 @@ class ListViewController: UITableViewController {
 }
 
 extension UITableView {
-    
+//    Adds an info message when there are no tasks in the app. 
     func setEmptyMessage(_ message: String) {
         let messageLabel = UILabel(frame: CGRect(x: 0, y: 0, width: self.bounds.size.width, height: self.bounds.size.height))
         messageLabel.text = message

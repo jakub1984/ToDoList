@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 
 class NewCategoryViewController: UIViewController {
-   
+    
     let colorArray : [Double] = [ 0xfe0000, 0xff7900, 0xffb900, 0xffde00, 0xfcff00, 0xd2ff00, 0x05c000, 0x00c0a7, 0x0600ff, 0x6700bf, 0x9500c0, 0xbf0199 ]
     @IBOutlet weak var selectedColorView: UIView!
     @IBOutlet weak var slider: UISlider!
@@ -21,7 +21,7 @@ class NewCategoryViewController: UIViewController {
         super.viewDidLoad()
         nameLbl.becomeFirstResponder()
     }
-
+    
     @IBAction func saveTapped(_ sender: UIBarButtonItem) {
         saveNewCategory()
         showAlertAndDismiss(title: "Success", message: "New category was created", vc: self)
@@ -41,7 +41,7 @@ class NewCategoryViewController: UIViewController {
         let newCategory = Categories(context: context)
         newCategory.categoryColor = colorArray[Int(slider.value)]
         newCategory.categoryName = name.capitalized
-
+        
         do{
             try context.save()
         }catch {
@@ -50,13 +50,15 @@ class NewCategoryViewController: UIViewController {
     }
     
     func showAlertAndDismiss(title: String, message:String, vc: UIViewController) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        
-        let okAction = UIAlertAction(title: "OK", style: .default, handler: {_ in
-            self.navigationController?.popViewController(animated: true)
-        })
-        alert.addAction(okAction)
-        vc.present(alert, animated: true, completion: nil)
+        DispatchQueue.main.async {
+            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            
+            let okAction = UIAlertAction(title: "OK", style: .default, handler: {_ in
+                self.navigationController?.popViewController(animated: true)
+            })
+            alert.addAction(okAction)
+            vc.present(alert, animated: true, completion: nil)
+        }
     }
-
+    
 }
