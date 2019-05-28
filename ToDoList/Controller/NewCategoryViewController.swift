@@ -33,7 +33,6 @@ class NewCategoryViewController: UIViewController {
         saveNewCategory()
         navigationController?.popViewController(animated: true)
         Helper.app.showAlert(title: "Success", message: "New category was created", vc: self)
-
     }
     
     @IBAction func sliderChanged(_ sender: UISlider) {
@@ -59,7 +58,7 @@ class NewCategoryViewController: UIViewController {
         
         let newCategory = Categories(context: context)
         newCategory.categoryColor = colorArray[Int(slider.value)]
-        newCategory.categoryName = name
+        newCategory.categoryName = name.capitalized
 
         do{
             try context.save()
