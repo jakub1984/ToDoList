@@ -43,9 +43,7 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
             categoryName = task.category
             pickerTextField.backgroundColor = UIColor(hex: task.categoryColor)
             categoryColor = task.categoryColor
-            
         }
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
