@@ -17,23 +17,18 @@ class NewCategoryViewController: UIViewController {
     @IBOutlet weak var nameLbl: UITextField!
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
-
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         nameLbl.becomeFirstResponder()
-      
-        
     }
-    
- 
-    
+
     @IBAction func saveTapped(_ sender: UIBarButtonItem) {
         saveNewCategory()
-        navigationController?.popViewController(animated: true)
-        Helper.app.showAlert(title: "Success", message: "New category was created", vc: self)
+        showAlertAndDismiss(title: "Success", message: "New category was created", vc: self)
+
     }
+    
+
     
     @IBAction func sliderChanged(_ sender: UISlider) {
         selectedColorView.backgroundColor = uiColorFromHex(rgbValue: colorArray[Int(slider.value)])
@@ -67,7 +62,15 @@ class NewCategoryViewController: UIViewController {
             print("Error saving item with \(error)")
         }
     }
-
     
+    func showAlertAndDismiss(title: String, message:String, vc: UIViewController) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: {_ in
+            self.navigationController?.popViewController(animated: true)
+        })
+        alert.addAction(okAction)
+        vc.present(alert, animated: true, completion: nil)
+    }
 
 }
