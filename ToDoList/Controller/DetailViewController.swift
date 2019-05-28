@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
+class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, UITextViewDelegate {
     
     @IBOutlet weak var taskName: UITextField!
     @IBOutlet weak var txtDatePicker: UITextField!
@@ -26,9 +26,9 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
     override func viewDidLoad() {
         super.viewDidLoad()
         pickerView.delegate = self
+        taskName.delegate = self
         showCategoryPicker()
         showDatePicker()
-
         taskName.becomeFirstResponder()
 
         if let task = selectedTask {
@@ -219,6 +219,20 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         } else {
             navigationController?.popViewController(animated: true)
         }
+    }
+  
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if text == "\n"  // Recognizes enter key in keyboard
+        {
+            textView.resignFirstResponder()
+            return false
+        }
+        return true
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        taskName.resignFirstResponder()
+        return true
     }
 }
 

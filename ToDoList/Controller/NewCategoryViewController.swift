@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class NewCategoryViewController: UIViewController {
+class NewCategoryViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate {
     
     let colorArray : [Double] = [ 0xfe0000, 0xff7900, 0xffb900, 0xffde00, 0xfcff00, 0xd2ff00, 0x05c000, 0x00c0a7, 0x0600ff, 0x6700bf, 0x9500c0, 0xbf0199 ]
     @IBOutlet weak var selectedColorView: UIView!
@@ -19,6 +19,7 @@ class NewCategoryViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        nameLbl.delegate = self
         nameLbl.becomeFirstResponder()
     }
     
@@ -59,6 +60,20 @@ class NewCategoryViewController: UIViewController {
             alert.addAction(okAction)
             vc.present(alert, animated: true, completion: nil)
         }
+    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if text == "\n"  // Recognizes enter key in keyboard
+        {
+            textView.resignFirstResponder()
+            return false
+        }
+        return true
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        nameLbl.resignFirstResponder()
+        return true
     }
     
 }
