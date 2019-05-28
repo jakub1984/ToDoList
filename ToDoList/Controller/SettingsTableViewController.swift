@@ -11,30 +11,18 @@ import UserNotifications
 import CoreData
 
 class SettingsTableViewController: UITableViewController {
-    var items = [Tasks]()
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
 
     @IBOutlet weak var switcher: UISwitch!
     override func viewDidLoad() {
         super.viewDidLoad()
-        let request: NSFetchRequest<Tasks> = Tasks.fetchRequest()
-        do {
-            items = try context.fetch(request)
-        }catch{
-            print("Error fetching data from context \(error)")
-        }
-        
+       
         let defaults = UserDefaults.standard
         
         if (defaults.object(forKey: "SwitchState") != nil) {
             switcher.isOn = defaults.bool(forKey: "SwitchState")
         }
-        print(items)
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
 
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
 
     // MARK: - Table view data source
@@ -45,12 +33,21 @@ class SettingsTableViewController: UITableViewController {
         if switcher.isOn {
             defaults.set(true, forKey: "SwitchState")
             registerLocal()
-            
         } else {
             defaults.set(false, forKey: "SwitchState")
             UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
         }
 
+    }
+    
+    func showAlertAndDismiss(title: String, message:String, vc: UIViewController) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: {_ in
+            self.navigationController?.popViewController(animated: true)
+        })
+        alert.addAction(okAction)
+        vc.present(alert, animated: true, completion: nil)
     }
     
     @objc func registerLocal() {
@@ -59,6 +56,7 @@ class SettingsTableViewController: UITableViewController {
         center.requestAuthorization(options: [.alert, .badge, .sound]) { (granted, error) in
             if granted {
                 print("Permission granted")
+                self.showAlertAndDismiss(title: "Success", message: "You will get notification for each task on the deadline date", vc: self)
             } else {
                 print("Permission denied")
             }
