@@ -296,7 +296,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="43" translatesAutoresizingMaskIntoConstraints="NO" id="jrw-nW-xde" userLabel="Notifications Stack View">
-                                                    <rect key="frame" x="16" y="6.6666666666666661" width="343" height="30.333333333333336"/>
+                                                    <rect key="frame" x="16" y="6.6666666666666696" width="343" height="30.333333333333329"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Turn on notifications" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sNZ-HP-jgI">
                                                             <rect key="frame" x="0.0" y="4.9999999999999982" width="251" height="20.333333333333329"/>

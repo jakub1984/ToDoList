@@ -10,20 +10,20 @@ import UIKit
 import UserNotifications
 
 class SettingsTableViewController: UITableViewController {
-
+    
     @IBOutlet weak var switcher: UISwitch!
     override func viewDidLoad() {
         super.viewDidLoad()
-       
+        
         let defaults = UserDefaults.standard
         
         if (defaults.object(forKey: "SwitchState") != nil) {
             switcher.isOn = defaults.bool(forKey: "SwitchState")
         }
     }
-
+    
     // MARK: - Table view data source
-
+    
     @IBAction func switchTapped(_ sender: UISwitch) {
         let defaults = UserDefaults.standard
         
@@ -43,7 +43,7 @@ class SettingsTableViewController: UITableViewController {
         return 1
     }
     
-    
+    //    Get permission to send notifications
     @objc func registerLocal() {
         let center = UNUserNotificationCenter.current()
         
@@ -59,15 +59,15 @@ class SettingsTableViewController: UITableViewController {
     
     func showAlertAndDismiss(title: String, message:String, vc: UIViewController) {
         DispatchQueue.main.async {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "OK", style: .default, handler: {_ in
-            self.navigationController?.popViewController(animated: true)
-        })
-        alert.addAction(okAction)
-        vc.present(alert, animated: true, completion: nil)
+            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK", style: .default, handler: {_ in
+                self.navigationController?.popViewController(animated: true)
+            })
+            alert.addAction(okAction)
+            vc.present(alert, animated: true, completion: nil)
         }
         
     }
-
-
+    
+    
 }

@@ -22,7 +22,7 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
     var dueDate : Date?
     var categories = [Categories]()
     var selectedTask: Tasks?
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         pickerView.delegate = self
@@ -30,7 +30,7 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         showCategoryPicker()
         showDatePicker()
         taskName.becomeFirstResponder()
-
+        
         if let task = selectedTask {
             
             taskName.text = task.title
@@ -57,13 +57,11 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
             pickerView.reloadAllComponents()
         }catch{
             print("Error fetching data from context \(error)")
-        }
-        print("categories: \(categories)")
-        
+        }        
     }
     
     @IBAction func saveTaskTapped(_ sender: UIBarButtonItem) {
-//    Making sure task name and category are set
+        //    Making sure task name and category are set
         guard let title = taskName.text, !title.isEmpty else {
             Helper.app.showAlert(title: "Mandatory fields missing:", message: "Please select name", vc: self)
             taskName.becomeFirstResponder()
@@ -95,14 +93,14 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         do {
             try context.save()
             navigationController?.popViewController(animated: true)
-
+            
         } catch {
             print("Error saving todo: \(error)")
         }
     }
     
     
-//    Date picker
+    //    Date picker
     func showDatePicker(){
         //Format Date
         datePicker.datePickerMode = .dateAndTime
@@ -148,7 +146,7 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
     }
     
     
-//    Category picker
+    //    Category picker
     func showCategoryPicker() {
         
         let toolbar = UIToolbar();
@@ -190,10 +188,10 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
     
     func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
         var pickerLabel = view as! UILabel?
-
+        
         if view == nil {
             pickerLabel = UILabel()
-//            Color the label's background
+            //            Color the label's background
             let colors = categories[row].categoryColor
             pickerLabel!.backgroundColor = UIColor(hex: colors)
         }
@@ -220,7 +218,8 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
             navigationController?.popViewController(animated: true)
         }
     }
-  
+    
+    //    Dismiss keyboard after pressing Enter button
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         if text == "\n"  // Recognizes enter key in keyboard
         {

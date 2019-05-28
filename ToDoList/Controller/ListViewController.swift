@@ -50,7 +50,7 @@ class ListViewController: UITableViewController {
     }
     
     
-    //MARK: TableView DataSource Methods
+    // TableView DataSource Methods
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if sortedTasks.count == 0 {
@@ -77,7 +77,16 @@ class ListViewController: UITableViewController {
         return UITableViewCell()
     }
     
-//    Segues to subpages - programatically and via storyboard
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "toDetail", sender: tableView.cellForRow(at: indexPath))
+        
+    }
+    
+    //    Segues to subpages - programatically and via storyboard
     @IBAction func settingsIconTapped(_ sender: UIBarButtonItem) {
         let mainStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
         guard let settingsViewController = mainStoryboard.instantiateViewController(withIdentifier:"settingsVC") as? NewCategoryViewController
@@ -86,11 +95,6 @@ class ListViewController: UITableViewController {
                 return
         }
         navigationController?.pushViewController(settingsViewController, animated: true)
-        
-    }
-    
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "toDetail", sender: tableView.cellForRow(at: indexPath))
         
     }
     
@@ -106,7 +110,7 @@ class ListViewController: UITableViewController {
         performSegue(withIdentifier: "toDetail", sender: UITabBarItem.self)
     }
     
-//    Delete task swipe action
+    //    Delete task swipe action
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         
         if (editingStyle == .delete) {
@@ -131,7 +135,7 @@ class ListViewController: UITableViewController {
         let taskCompletion = sortedTasks[indexPath.row].completed ? "Restart" : "Complete"
         let action = UIContextualAction(style: .normal, title: taskCompletion) { (action, view, completion) in
             self.sortedTasks[indexPath.row].completed = !self.sortedTasks[indexPath.row].completed
-
+            
             do{
                 try self.context.save()
                 self.scheduleLocal()
@@ -142,11 +146,11 @@ class ListViewController: UITableViewController {
             tableView.reloadData()
         }
         action.backgroundColor = .green
-
+        
         return UISwipeActionsConfiguration(actions: [action])
     }
     
-//    Loads Tasks entity from CoreData
+    //    Loads Tasks entity from CoreData
     func loadTasks(){
         let request: NSFetchRequest<Tasks> = Tasks.fetchRequest()
         
@@ -158,11 +162,9 @@ class ListViewController: UITableViewController {
         tableView.reloadData()
     }
     
-//    Loads Categories entity from CoreData
-
+    //    Loads Categories entity from CoreData
     func loadCategories(){
         let request: NSFetchRequest<Categories> = Categories.fetchRequest()
-        
         do {
             categories = try context.fetch(request)
         }catch{
@@ -171,7 +173,6 @@ class ListViewController: UITableViewController {
         tableView.reloadData()
     }
     
-    
     //   Setup local notifications - you will get local notification at the task deadline if deadline is set.
     @objc func scheduleLocal() {
         let switchOn: Bool = (UserDefaults.standard.value(forKey: "SwitchState") as? Bool ?? false)
@@ -179,9 +180,7 @@ class ListViewController: UITableViewController {
         if switchOn {
             let center = UNUserNotificationCenter.current()
             center.removeAllPendingNotificationRequests()
-            
-            print("ScheduleLocal started")
-            
+                        
             for i in 0 ..< items.count {
                 if items[i].dueDate != nil && items[i].completed == false {
                     let content = UNMutableNotificationContent()
@@ -195,21 +194,14 @@ class ListViewController: UITableViewController {
                     let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: true)
                     let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
                     center.add(request)
-                    print("Notification created: \(content.body)")
-                    print("Trigger date: \(triggerDate)")
                 }
             }
         }
     }
-    
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    
 }
 
 extension UITableView {
-//    Adds an info message when there are no tasks in the app. 
+    //    Adds an info message when there are no tasks in the app.
     func setEmptyMessage(_ message: String) {
         let messageLabel = UILabel(frame: CGRect(x: 0, y: 0, width: self.bounds.size.width, height: self.bounds.size.height))
         messageLabel.text = message

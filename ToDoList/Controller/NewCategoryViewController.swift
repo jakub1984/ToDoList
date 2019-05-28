@@ -62,8 +62,10 @@ class NewCategoryViewController: UIViewController, UITextFieldDelegate, UITextVi
         }
     }
     
+    //    Dismiss keyboard after pressing Enter button
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        if text == "\n"  // Recognizes enter key in keyboard
+        // Recognizes enter key in keyboard
+        if text == "\n"
         {
             textView.resignFirstResponder()
             return false
