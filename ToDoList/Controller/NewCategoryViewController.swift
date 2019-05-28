@@ -11,7 +11,7 @@ import CoreData
 
 class NewCategoryViewController: UIViewController {
    
-    let colorArray : [Double] = [ 0x000000, 0xfe0000, 0xff7900, 0xffb900, 0xffde00, 0xfcff00, 0xd2ff00, 0x05c000, 0x00c0a7, 0x0600ff, 0x6700bf, 0x9500c0, 0xbf0199, 0xffffff ]
+    let colorArray : [Double] = [ 0xfe0000, 0xff7900, 0xffb900, 0xffde00, 0xfcff00, 0xd2ff00, 0x05c000, 0x00c0a7, 0x0600ff, 0x6700bf, 0x9500c0, 0xbf0199 ]
     @IBOutlet weak var selectedColorView: UIView!
     @IBOutlet weak var slider: UISlider!
     @IBOutlet weak var nameLbl: UITextField!
@@ -25,7 +25,6 @@ class NewCategoryViewController: UIViewController {
     @IBAction func saveTapped(_ sender: UIBarButtonItem) {
         saveNewCategory()
         showAlertAndDismiss(title: "Success", message: "New category was created", vc: self)
-
     }
     
 
@@ -57,7 +56,6 @@ class NewCategoryViewController: UIViewController {
 
         do{
             try context.save()
-            print("new category: \(newCategory)")
         }catch {
             print("Error saving item with \(error)")
         }

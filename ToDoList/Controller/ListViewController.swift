@@ -134,10 +134,13 @@ class ListViewController: UITableViewController {
             do {
                 try context.save()
                 scheduleLocal()
+                tableView.deleteRows(at: [indexPath], with: .automatic)
+                loadTasks()
+
             } catch {
                 print("Error deleting items with \(error)")
             }
-            tableView.deleteRows(at: [indexPath], with: .automatic) 
+
         }
         
         
@@ -151,15 +154,14 @@ class ListViewController: UITableViewController {
 
             do{
                 try self.context.save()
-                completion(true)
                 self.scheduleLocal()
-
+                action.backgroundColor = .green
+                completion(true)
             }catch {
                 print("Error saving item with \(error)")
             }
             tableView.reloadData()
         }
-        action.backgroundColor = .green
         return UISwipeActionsConfiguration(actions: [action])
     }
     

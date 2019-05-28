@@ -29,16 +29,16 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="GT3-xb-pMe">
-                                            <rect key="frame" x="8" y="8" width="64.333333333333329" height="38.666666666666664"/>
+                                            <rect key="frame" x="8" y="8" width="64.666666666666671" height="38.666666666666664"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="pe3-zW-wRK">
-                                                    <rect key="frame" x="0.0" y="0.0" width="64.333333333333329" height="19.333333333333332"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="64.666666666666671" height="19.333333333333332"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="23"/>
                                                     <color key="textColor" red="0.17254901960784313" green="0.56470588235294117" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="750" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="OoC-a5-VZ3">
-                                                    <rect key="frame" x="0.0" y="19.333333333333336" width="64.333333333333329" height="19.333333333333336"/>
+                                                    <rect key="frame" x="0.0" y="19.333333333333336" width="64.666666666666671" height="19.333333333333336"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" red="0.17254901959999999" green="0.56470588239999997" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -190,7 +190,7 @@
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="z2p-G5-kVV">
                                                         <rect key="frame" x="0.6666666666666714" y="0.66666666666665719" width="40" height="40"/>
-                                                        <color key="backgroundColor" red="0.85832959409999998" green="0.99664527179999995" blue="0.3213037252" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                        <color key="backgroundColor" red="0.34105515479999998" green="0.74059879780000004" blue="0.2154919803" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="40" id="CIY-hw-NcD"/>
                                                             <constraint firstAttribute="width" constant="40" id="mQw-1C-nzu"/>
@@ -228,7 +228,7 @@
                                                     <constraint firstAttribute="width" secondItem="XaI-lh-kCQ" secondAttribute="height" multiplier="67:10" id="MRe-ZU-017"/>
                                                 </constraints>
                                             </imageView>
-                                            <slider opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="6.5" minValue="0.5" maxValue="13.5" translatesAutoresizingMaskIntoConstraints="NO" id="3Hv-MG-Eon">
+                                            <slider opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="6.5" minValue="0.5" maxValue="11.5" translatesAutoresizingMaskIntoConstraints="NO" id="3Hv-MG-Eon">
                                                 <rect key="frame" x="-2" y="81.666666666666686" width="339" height="31"/>
                                                 <connections>
                                                     <action selector="sliderChanged:" destination="WxK-CH-64n" eventType="valueChanged" id="Khr-30-116"/>
@@ -302,7 +302,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="43" translatesAutoresizingMaskIntoConstraints="NO" id="jrw-nW-xde" userLabel="Notifications Stack View">
-                                                    <rect key="frame" x="16" y="6.6666666666666714" width="343" height="30.333333333333329"/>
+                                                    <rect key="frame" x="16" y="6.6666666666666661" width="343" height="30.333333333333336"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Turn on notifications" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sNZ-HP-jgI">
                                                             <rect key="frame" x="0.0" y="4.9999999999999982" width="251" height="20.333333333333329"/>
@@ -570,7 +570,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="colors" width="700" height="50"/>
+        <image name="colors" width="600" height="50"/>
         <image name="nav_bar_ic_add" width="20" height="20"/>
         <image name="nav_bar_ic_settings" width="20" height="20"/>
     </resources>
