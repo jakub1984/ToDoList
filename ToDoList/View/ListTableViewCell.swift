@@ -22,18 +22,20 @@ class ListTableViewCell: UITableViewCell {
     
     func setCell(task: Tasks) {
         titleLbl.text = task.title
+        categoryLbl.text = task.category
+        categoryLbl.backgroundColor = UIColor(hex: task.categoryColor)
         if let date = task.dueDate {
             deadlineLbl.text = listDate(date)
             hourLbl.text = hourDate(date)
+        } else {
+            deadlineLbl.text = ""
+            hourLbl.text = ""
         }
-        categoryLbl.text = task.category
-        categoryLbl.backgroundColor = UIColor(hex: task.categoryColor)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
-        // Configure the view for the selected state
     }
     
     func listDate(_ date: Date) -> String {

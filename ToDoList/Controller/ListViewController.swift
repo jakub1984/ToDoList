@@ -15,8 +15,6 @@ class ListViewController: UITableViewController {
     var items = [Tasks]()
     var categories = [Categories]()
     var sortedTasks = [Tasks]()
-    var defaultCategories : [String] = ["Swift","Project","Priority","Homework","Non-work"]
-    var defaultColors : [Double] = [0x79A700, 0xF68B2C, 0xF5522D, 0xE2B400, 0xFF6E83]
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
@@ -28,57 +26,47 @@ class ListViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         loadCategories()
         loadTasks()
+        sortedTasks = items.sorted{
+            ($0.dueDate ?? .distantFuture) < ($1.dueDate ?? .distantFuture)
+        }
         
         if categories.isEmpty {
             
-            for i in 0 ..< defaultCategories.count {
-                //                print("Category: \(defaultCategories[i]) colors: \(defaultColors[i])")
+            for i in 0 ..< Helper.app.defaultCategories.count {
                 let newCategory = Categories(context: context)
-                newCategory.categoryColor = defaultColors[i]
-                newCategory.categoryName = defaultCategories[i]
+                newCategory.categoryColor = Helper.app.defaultColors[i]
+                newCategory.categoryName = Helper.app.defaultCategories[i]
                 categories.append(newCategory)
             }
             
             do {
                 try context.save()
-                print("saved")
             } catch {
                 print("Error saving todo: \(error)")
             }
         }
-        
-        print("CategoriesList: \(categories)")
-        
-        print("item: \(items)")
         scheduleLocal()
-        
         tableView.reloadData()
-        
     }
-    
-    
     
     
     //MARK: TableView DataSource Methods
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if items.count == 0 {
+        if sortedTasks.count == 0 {
             self.tableView.setEmptyMessage("All tasks are completed")
         } else {
             self.tableView.restore()
         }
-        return items.count
+        return sortedTasks.count
     }
     
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as? ListTableViewCell {
-            sortedTasks = items.sorted{
-                ($0.dueDate ?? .distantFuture) < ($1.dueDate ?? .distantFuture)
-            }
+            
             let item = sortedTasks[indexPath.row]
             cell.setCell(task: item)
-            //        cell.accessoryType = item.completed ? .checkmark : .none
             if item.completed {
                 cell.backgroundColor = #colorLiteral(red: 0.8320295215, green: 0.9826709628, blue: 0, alpha: 1)
             } else {
@@ -89,6 +77,7 @@ class ListViewController: UITableViewController {
         return UITableViewCell()
     }
     
+//    Segues to subpages - programatically and via storyboard
     @IBAction func settingsIconTapped(_ sender: UIBarButtonItem) {
         let mainStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
         guard let settingsViewController = mainStoryboard.instantiateViewController(withIdentifier:"settingsVC") as? NewCategoryViewController
@@ -100,7 +89,6 @@ class ListViewController: UITableViewController {
         
     }
     
-    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         performSegue(withIdentifier: "toDetail", sender: tableView.cellForRow(at: indexPath))
         
@@ -109,32 +97,28 @@ class ListViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destinationVC = segue.destination as? DetailViewController {
             if let indexPath = tableView.indexPathForSelectedRow {
-                print("indexpath: \(indexPath)")
-                
                 destinationVC.selectedTask = sortedTasks[indexPath.row]
             }
-            
         }
     }
-    
     
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
         performSegue(withIdentifier: "toDetail", sender: UITabBarItem.self)
     }
     
-    
+//    Delete task swipe action
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         
         if (editingStyle == .delete) {
             
             let item = sortedTasks[indexPath.row]
-            items.remove(at: indexPath.row)
             context.delete(item)
+            sortedTasks.remove(at: indexPath.row)
             
             do {
                 try context.save()
-                scheduleLocal()
                 tableView.deleteRows(at: [indexPath], with: .automatic)
+                scheduleLocal()
                 loadTasks()
                 
             } catch {
@@ -146,19 +130,19 @@ class ListViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let taskCompletion = sortedTasks[indexPath.row].completed ? "Restart" : "Complete"
         let action = UIContextualAction(style: .normal, title: taskCompletion) { (action, view, completion) in
-            
             self.sortedTasks[indexPath.row].completed = !self.sortedTasks[indexPath.row].completed
-            
+
             do{
                 try self.context.save()
                 self.scheduleLocal()
-                action.backgroundColor = .green
                 completion(true)
             }catch {
                 print("Error saving item with \(error)")
             }
             tableView.reloadData()
         }
+        action.backgroundColor = .green
+
         return UISwipeActionsConfiguration(actions: [action])
     }
     
@@ -204,7 +188,6 @@ class ListViewController: UITableViewController {
                     content.title = "You have task to complete:"
                     content.body = items[i].title!
                     content.categoryIdentifier = "todo"
-                    //            content.userInfo = ["customData": "fizzbuzz"]
                     content.sound = UNNotificationSound.default
                     let date = items[i].dueDate!
                     var triggerDate = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)

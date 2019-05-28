@@ -8,38 +8,22 @@
 
 import Foundation
 import UIKit
-import CoreData
 
 class Helper {
     static var app: Helper = {
         return Helper()
     }()
     
-    var categories = [Categories]()
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    let defaultCategories : [String] = ["Swift","Project","Priority","Homework","Non-work"]
+    let defaultColors : [Double] = [0x79A700, 0xF68B2C, 0xF5522D, 0xE2B400, 0xFF6E83]
 
 
     func showAlert(title: String, message:String, vc: UIViewController) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        
         let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-//        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        
         alert.addAction(okAction)
-//        alert.addAction(cancelAction)
         
         vc.present(alert, animated: true, completion: nil)
-    }
-    
-    func loadCategories(){
-        let request: NSFetchRequest<Categories> = Categories.fetchRequest()
-        
-        do {
-            categories = try context.fetch(request)
-        }catch{
-            print("Error fetching data from context \(error)")
-        }
-//        tableView.reloadData()
     }
 
 }

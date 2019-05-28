@@ -95,7 +95,6 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         do {
             try context.save()
             navigationController?.popViewController(animated: true)
-            print("categoryToPass: \(category)")
 
         } catch {
             print("Error saving todo: \(error)")
@@ -223,8 +222,9 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
     }
 }
 
+
+// Extending UIColor so it can read hex values
 extension UIColor {
-    // Extending UIColor so it can read hex values
     convenience init(red: Int, green: Int, blue: Int) {
         assert(red >= 0 && red <= 255, "Invalid red component")
         assert(green >= 0 && green <= 255, "Invalid green component")
