@@ -25,7 +25,6 @@ class NewCategoryViewController: UIViewController, UITextFieldDelegate, UITextVi
     
     @IBAction func saveTapped(_ sender: UIBarButtonItem) {
         saveNewCategory()
-        showAlertAndDismiss(title: "Success", message: "New category was created", vc: self)
     }
     
     @IBAction func sliderChanged(_ sender: UISlider) {
@@ -45,6 +44,7 @@ class NewCategoryViewController: UIViewController, UITextFieldDelegate, UITextVi
         
         do{
             try context.save()
+            showAlertAndDismiss(title: "Success", message: "New category was created", vc: self)
         }catch {
             print("Error saving item with \(error)")
         }
