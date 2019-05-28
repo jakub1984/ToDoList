@@ -11,7 +11,6 @@ import CoreData
 
 class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
     
-    
     @IBOutlet weak var taskName: UITextField!
     @IBOutlet weak var txtDatePicker: UITextField!
     @IBOutlet weak var pickerTextField: UITextField!
@@ -20,22 +19,16 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var categoryColor : Double!
     var categoryName : String!
-//    var categoryColorsArray = [Double]()
-//    var categoryNameArray = [String]()
     var dueDate : Date?
     var categories = [Categories]()
     var selectedTask: Tasks?
 
-    
-    
-//    let pickCategories = ["Swift","Project","Priority","Homework","Non-work"]
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         pickerView.delegate = self
         showCategoryPicker()
         showDatePicker()
-        
+
         taskName.becomeFirstResponder()
 
         if let task = selectedTask {
@@ -48,10 +41,8 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
             }
             pickerTextField.text = task.category
             categoryName = task.category
-//            pickerTextField.backgroundColor = UIColor(named: "\(String(describing: task.categoryColor))")
-            pickerTextField.backgroundColor = UIColor(hex: Int(task.categoryColor))
+            pickerTextField.backgroundColor = UIColor(hex: task.categoryColor)
             categoryColor = task.categoryColor
-            print("Color: \(task.categoryColor)")
             
         }
         
@@ -69,10 +60,10 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         }
         print("categories: \(categories)")
         
-//        retrieveData()
     }
     
     @IBAction func saveTaskTapped(_ sender: UIBarButtonItem) {
+//    Making sure task name and category are set
         guard let title = taskName.text, !title.isEmpty else {
             Helper.app.showAlert(title: "Mandatory fields missing:", message: "Please select name", vc: self)
             taskName.becomeFirstResponder()
@@ -112,26 +103,35 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
     }
     
     
-    
+//    Date picker
     func showDatePicker(){
-        //Formate Date
+        //Format Date
         datePicker.datePickerMode = .dateAndTime
         datePicker.minuteInterval = 15
         datePicker.locale = Locale(identifier: "en_GB")
-
-
+        
         //Date picker ToolBar
         let toolbar = UIToolbar();
         toolbar.sizeToFit()
         let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelDatePicker));
         let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(doneDatePicker));
         let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
-        
         toolbar.setItems([cancelButton,spaceButton,doneButton], animated: false)
         
         txtDatePicker.inputAccessoryView = toolbar
         txtDatePicker.inputView = datePicker
-        
+    }
+    
+    @objc func doneDatePicker(){
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd.MM.yyyy HH:mm"
+        txtDatePicker.text = formatter.string(from: datePicker.clampedDate)
+        dueDate = datePicker.clampedDate
+        self.view.endEditing(true)
+    }
+    
+    @objc func cancelDatePicker(){
+        self.view.endEditing(true)
     }
     
     func dateFromString(date: String) -> Date? {
@@ -139,7 +139,7 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         dateFormatter.dateFormat = "dd.MM.yyyy HH:mm"
         dateFormatter.timeZone = TimeZone.current
         dateFormatter.locale = Locale.current
-        return dateFormatter.date(from: date) // replace Date String
+        return dateFormatter.date(from: date)
     }
     
     func fullStringFromDate(_ date: Date) -> String {
@@ -148,21 +148,6 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         return formatter.string(from: date)
     }
     
-    @objc func doneDatePicker(){
-        let formatter = DateFormatter()
-        formatter.dateFormat = "dd.MM.yyyy HH:mm"
-        txtDatePicker.text = formatter.string(from: datePicker.date)
-        dueDate = datePicker.date
-        self.view.endEditing(true)
-    }
-    
-    @objc func cancelDatePicker(){
-        self.view.endEditing(true)
-    }
-    
-    @objc func cancelCategoryPicker(){
-        self.view.endEditing(true)
-    }
     
 //    Category picker
     func showCategoryPicker() {
@@ -179,6 +164,10 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         
     }
     
+    @objc func cancelCategoryPicker(){
+        self.view.endEditing(true)
+    }
+    
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return categories[row].categoryName
     }
@@ -187,7 +176,7 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         let category = categories[row].categoryName
         let color = categories[row].categoryColor
         pickerTextField.text = category
-        pickerTextField.backgroundColor = UIColor(hex: Int(color))
+        pickerTextField.backgroundColor = UIColor(hex: color)
         categoryName = category
         categoryColor = color
     }
@@ -198,18 +187,16 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return categories.count
-        
     }
     
     func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
         var pickerLabel = view as! UILabel?
-        
-        if view == nil {  //if no label there yet
+
+        if view == nil {
             pickerLabel = UILabel()
-            //color the label's background
-            //            let hue = CGFloat(row)/CGFloat(pickerData.count)
+//            Color the label's background
             let colors = categories[row].categoryColor
-            pickerLabel!.backgroundColor = UIColor(hex: Int(colors))
+            pickerLabel!.backgroundColor = UIColor(hex: colors)
         }
         let titleData = categories[row].categoryName
         let myTitle = NSAttributedString(string: titleData!, attributes: [NSAttributedString.Key.font:UIFont(name: "Helvetica", size: 18.0)!])
@@ -233,16 +220,11 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         } else {
             navigationController?.popViewController(animated: true)
         }
-        
     }
-    
-    
-    
-    
-    
 }
 
 extension UIColor {
+    // Extending UIColor so it can read hex values
     convenience init(red: Int, green: Int, blue: Int) {
         assert(red >= 0 && red <= 255, "Invalid red component")
         assert(green >= 0 && green <= 255, "Invalid green component")
@@ -251,11 +233,21 @@ extension UIColor {
         self.init(red: CGFloat(red) / 255.0, green: CGFloat(green) / 255.0, blue: CGFloat(blue) / 255.0, alpha: 1.0)
     }
 
-    convenience init(hex: Int) {
+    convenience init(hex: Double) {
         self.init(
-            red: (hex >> 16) & 0xFF,
-            green: (hex >> 8) & 0xFF,
-            blue: hex & 0xFF
+            red: (Int(hex) >> 16) & 0xFF,
+            green: (Int(hex) >> 8) & 0xFF,
+            blue: Int(hex) & 0xFF
         )
+    }
+}
+
+extension UIDatePicker {
+    /// Returns the date that reflects the displayed date clamped to the `minuteInterval` of the picker.
+    public var clampedDate: Date {
+        let referenceTimeInterval = self.date.timeIntervalSinceReferenceDate
+        let remainingSeconds = referenceTimeInterval.truncatingRemainder(dividingBy: TimeInterval(minuteInterval*60))
+        let timeRoundedToInterval = referenceTimeInterval - remainingSeconds
+        return Date(timeIntervalSinceReferenceDate: timeRoundedToInterval)
     }
 }

@@ -22,23 +22,23 @@ class ListViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-      
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         loadCategories()
         loadTasks()
-
+        
         if categories.isEmpty {
             
             for i in 0 ..< defaultCategories.count {
-//                print("Category: \(defaultCategories[i]) colors: \(defaultColors[i])")
+                //                print("Category: \(defaultCategories[i]) colors: \(defaultColors[i])")
                 let newCategory = Categories(context: context)
                 newCategory.categoryColor = defaultColors[i]
                 newCategory.categoryName = defaultCategories[i]
                 categories.append(newCategory)
             }
-
+            
             do {
                 try context.save()
                 print("saved")
@@ -46,18 +46,18 @@ class ListViewController: UITableViewController {
                 print("Error saving todo: \(error)")
             }
         }
-
+        
         print("CategoriesList: \(categories)")
-
+        
         print("item: \(items)")
         scheduleLocal()
-
+        
         tableView.reloadData()
         
     }
     
     
-
+    
     
     //MARK: TableView DataSource Methods
     
@@ -69,7 +69,7 @@ class ListViewController: UITableViewController {
         }
         return items.count
     }
-
+    
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as? ListTableViewCell {
@@ -93,14 +93,14 @@ class ListViewController: UITableViewController {
         let mainStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
         guard let settingsViewController = mainStoryboard.instantiateViewController(withIdentifier:"settingsVC") as? NewCategoryViewController
             else {
-            print("Can't find view controller")
-            return
+                print("Can't find view controller")
+                return
         }
         navigationController?.pushViewController(settingsViewController, animated: true)
         
     }
     
-   
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         performSegue(withIdentifier: "toDetail", sender: tableView.cellForRow(at: indexPath))
         
@@ -108,11 +108,11 @@ class ListViewController: UITableViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destinationVC = segue.destination as? DetailViewController {
-        if let indexPath = tableView.indexPathForSelectedRow {
-            print("indexpath: \(indexPath)")
-
-            destinationVC.selectedTask = sortedTasks[indexPath.row]
-        }
+            if let indexPath = tableView.indexPathForSelectedRow {
+                print("indexpath: \(indexPath)")
+                
+                destinationVC.selectedTask = sortedTasks[indexPath.row]
+            }
             
         }
     }
@@ -121,7 +121,7 @@ class ListViewController: UITableViewController {
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
         performSegue(withIdentifier: "toDetail", sender: UITabBarItem.self)
     }
-
+    
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         
@@ -136,14 +136,11 @@ class ListViewController: UITableViewController {
                 scheduleLocal()
                 tableView.deleteRows(at: [indexPath], with: .automatic)
                 loadTasks()
-
+                
             } catch {
                 print("Error deleting items with \(error)")
             }
-
         }
-        
-        
     }
     
     override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
@@ -151,7 +148,7 @@ class ListViewController: UITableViewController {
         let action = UIContextualAction(style: .normal, title: taskCompletion) { (action, view, completion) in
             
             self.sortedTasks[indexPath.row].completed = !self.sortedTasks[indexPath.row].completed
-
+            
             do{
                 try self.context.save()
                 self.scheduleLocal()
@@ -165,7 +162,7 @@ class ListViewController: UITableViewController {
         return UISwipeActionsConfiguration(actions: [action])
     }
     
-    
+//    Loads Tasks entity from CoreData
     func loadTasks(){
         let request: NSFetchRequest<Tasks> = Tasks.fetchRequest()
         
@@ -177,6 +174,8 @@ class ListViewController: UITableViewController {
         tableView.reloadData()
     }
     
+//    Loads Categories entity from CoreData
+
     func loadCategories(){
         let request: NSFetchRequest<Categories> = Categories.fetchRequest()
         
@@ -188,16 +187,8 @@ class ListViewController: UITableViewController {
         tableView.reloadData()
     }
     
-//    func saveTask() {
-//        do{
-//            try context.save()
-//        }catch {
-//            print("Error saving item with \(error)")
-//        }
-//        tableView.reloadData()
-//    }
     
-//   Setup local notifications - you will get local notification at the task deadline if deadline is set.
+    //   Setup local notifications - you will get local notification at the task deadline if deadline is set.
     @objc func scheduleLocal() {
         let switchOn: Bool = (UserDefaults.standard.value(forKey: "SwitchState") as? Bool ?? false)
         
@@ -219,8 +210,6 @@ class ListViewController: UITableViewController {
                     var triggerDate = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
                     triggerDate.second = 0
                     let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: true)
-                    //            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
-                    
                     let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
                     center.add(request)
                     print("Notification created: \(content.body)")

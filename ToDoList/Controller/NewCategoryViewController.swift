@@ -27,20 +27,8 @@ class NewCategoryViewController: UIViewController {
         showAlertAndDismiss(title: "Success", message: "New category was created", vc: self)
     }
     
-
-    
     @IBAction func sliderChanged(_ sender: UISlider) {
-        selectedColorView.backgroundColor = uiColorFromHex(rgbValue: colorArray[Int(slider.value)])
-    }
-    
-    func uiColorFromHex(rgbValue: Double) -> UIColor {
-        
-        let red =   CGFloat((Int(rgbValue) & 0xFF0000) >> 16) / 0xFF
-        let green = CGFloat((Int(rgbValue) & 0x00FF00) >> 8) / 0xFF
-        let blue =  CGFloat(Int(rgbValue) & 0x0000FF) / 0xFF
-        let alpha = CGFloat(1.0)
-        
-        return UIColor(red: red, green: green, blue: blue, alpha: alpha)
+        selectedColorView.backgroundColor = UIColor(hex: colorArray[Int(slider.value)])
     }
     
     func saveNewCategory() {
